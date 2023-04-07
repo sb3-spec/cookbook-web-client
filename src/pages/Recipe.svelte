@@ -24,7 +24,9 @@
     <div class="recipe-outer">
         <div class="recipe-header-wrapper">
             <img src={recipe.image_url} alt={recipe.title}>
-            <h1>{recipe.title}</h1>
+            <div class="title-wrapper">
+                <h1>{recipe.title}</h1>
+            </div>
         </div>
         <div class="recipe-info-wrapper">
             <div class="recipe-content-wrapper">
@@ -75,6 +77,24 @@
         justify-content: space-between;
     }
 
+    .title-wrapper {
+        height: 500px;
+        width: 640px;
+        border-bottom: 1px solid black;
+    }
+
+
+    /* .title-wrapper::after {
+        content: "";
+        background-color: black;
+        height: 1px;
+        width: 90%;
+        position: relative;
+        bottom: -100%;
+        margin-left: auto;
+        display: block;
+    } */
+
     .recipe-description-wrapper {
         width: 700px;
         text-align: left;
@@ -98,15 +118,15 @@
     }
 
     h1 {
-        width: 700px;
+        width: 100%;
         text-align: center;
         font-weight: 100;
-        line-height: 500px;
+        /* line-height: 500px; */
         vertical-align: middle;
-        margin: 0;
+        margin-top: 3em;
     }
 
-    h1::after {
+    /* h1::after {
         content: "";
         background-color: black;
         height: 1px;
@@ -114,7 +134,7 @@
         position: relative;
         margin-left: auto;
         display: block;
-    }
+    } */
 
 
     img {
