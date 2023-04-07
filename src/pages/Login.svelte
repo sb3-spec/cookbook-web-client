@@ -4,6 +4,7 @@
     import * as firebaseui from "firebaseui";
     import 'firebaseui/dist/firebaseui.css'
     import { onMount } from 'svelte';
+    import { frontendHost } from '../utils/hosts';
 
     onMount(() => {
         var ui = new firebaseui.auth.AuthUI(getAuth());
@@ -14,7 +15,7 @@
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.GithubAuthProvider.PROVIDER_ID
             ],
-            signInSuccessUrl: "http://localhost:5173"
+            signInSuccessUrl: frontendHost
         });
 
     })

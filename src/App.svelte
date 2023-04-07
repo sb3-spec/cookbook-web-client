@@ -11,6 +11,7 @@
   import NewRecipe from "./pages/NewRecipe.svelte";
   import { api } from "./utils/RecipeApi";
     import Recipe from "./pages/Recipe.svelte";
+    import { frontendHost } from "./utils/hosts";
 
   // VARS
 
@@ -46,7 +47,7 @@
           // }
         })
       } else {
-        window.location.replace("http://localhost:5173/#/login")
+        window.location.replace(frontendHost + "#/login");
       }
     })
   });
