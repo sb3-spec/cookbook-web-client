@@ -47,9 +47,9 @@
 
 <style>
 
-    /* .swiper-wrapper {
-        padding: 0 3em;
-    } */
+    .swiper-wrapper {
+        padding-bottom: 2em;
+    }
 
     .swiper-button-prev {
         left: 0;
@@ -64,6 +64,7 @@
         position: relative;
         border-top: 5px solid black;
         margin-bottom: 150px;
+        padding-bottom: 1em;
     }
 
     .swiper-wrapper {
