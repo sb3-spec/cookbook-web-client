@@ -4,6 +4,7 @@
     import { api } from "../utils/RecipeApi";
     import { grabItemNumber } from "./utils/new_recipe";
     import { uploadImage } from "../utils/uploadImage";
+    import { CurrentRecipeStore } from "../stores/CurrentRecipe";
 
     $: stepCount = 1;
     $: ingredientCount = 1;
@@ -177,7 +178,8 @@
         await api.post("recipes", res, authConfig).then(res => {
             if (res.status == 200) {
                 alert("Recipe created successfully");
-                // window.location.replace(frontendHost + res.data.data.id);
+                CurrentRecipeStore.set(res.data.data);
+                window.location.replace(frontendHost + "#/" + res.data.data.title);
             }
         }).catch(err => {
             console.log(err);
