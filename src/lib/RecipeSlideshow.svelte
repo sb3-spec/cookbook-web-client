@@ -45,13 +45,31 @@
 </div>
 
 
-<style>    
+<style>
+
+    /* .swiper-wrapper {
+        padding: 0 3em;
+    } */
+
+    .swiper-button-prev {
+        left: 0;
+    }
+
+    .swiper-button-next {
+        right: 0;
+    }
     .swiper-container {
-        width: var(--content-width);
+        width: calc(var(--content-width) + 10%);
         margin: 0 auto;
         position: relative;
         border-top: 5px solid black;
         margin-bottom: 150px;
+    }
+
+    .swiper-wrapper {
+        width: var(--content-width);
+        margin: 0 auto;
+        padding-right: 5%;
     }
 
     .swiper-slide {
