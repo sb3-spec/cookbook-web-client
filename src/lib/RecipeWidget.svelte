@@ -11,9 +11,14 @@
         header: ''
     }
 
+    function handleClick(e) {
+        localStorage.setItem('currentRecipe', JSON.stringify(recipe));
+        CurrentRecipeStore.set(recipe);
+    }
+
 </script>
 
-<a href={"/#/" + recipe.title.replace(' ', '-')}>
+<a href={"/#/" + recipe.title.replace(' ', '-')} on:click={handleClick}>
     <div id="recipe-widget" class="recipe-widget-outer">
         <div class="img-wrapper"><img src={recipe.image_url} alt={recipe.title}></div>
         <h3>{recipe.title}</h3>

@@ -63,6 +63,8 @@
         </div>
 
     </div>
+{:else}
+    <h2>Recipe Not Found</h2>
 {/if}
 
 <style>
