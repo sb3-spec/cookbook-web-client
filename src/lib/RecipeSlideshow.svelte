@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import Swiper, { Navigation } from "swiper";
     import 'swiper/css';
     import 'swiper/css/navigation';
@@ -9,6 +9,8 @@
     export let title = "";
     export let description = "";
     export let recipes = [];
+
+    const dispatch = createEventDispatcher();
 
     onMount(() => {
         const swiper = new Swiper('.swiper-container', {
@@ -35,7 +37,7 @@
     <div class="swiper-wrapper">
         {#each recipes as recipe}
             <div class="swiper-slide">
-                <RecipeWidget {recipe} />
+                <RecipeWidget {recipe} on:confirmDelete={(e) => {dispatch("confirmDelete", {text: e.detail.text})}}/>
             </div>
         {/each}
     </div>
@@ -65,6 +67,7 @@
         border-top: 5px solid black;
         margin-bottom: 150px;
         padding-bottom: 1em;
+
     }
 
     .swiper-wrapper {
