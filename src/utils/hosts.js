@@ -3,8 +3,8 @@ const SiteState = Object.freeze({
     PROD:  Symbol("prod"),
 });
 
-let frontendState = SiteState.DEV;
-let backendState = SiteState.DEV;
+let frontendState = SiteState.PROD;
+let backendState = SiteState.PROD;
 
 export const frontendHost = frontendState === SiteState.DEV ? 'http://localhost:5173/' : 'https://digital-cookbook.netlify.app/';
 export const backendHost = backendState === SiteState.DEV ? 'http://localhost:8080/' : 'https://cookbookapi-production.up.railway.app/';
