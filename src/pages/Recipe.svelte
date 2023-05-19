@@ -52,7 +52,7 @@
             <div class="ingredients">
                 <h2>Ingredients</h2>
                 {#each recipe.ingredients as ingredient}
-                    <h4>{ingredient}</h4>
+                    <p>{ingredient}</p>
                 {/each}
             </div>
             <div class="steps">
@@ -80,7 +80,7 @@
     .title-wrapper {
         height: 500px;
         width: 640px;
-        border-bottom: 1px solid black;
+        border-bottom: 5px solid var(--accent);
     }
 
 
@@ -99,12 +99,12 @@
         width: 700px;
         text-align: left;
         position: relative;
+        height: 200px;
     }
 
     .recipe-description-wrapper p {
         position: absolute;
         left: 10%;
-
     }
 
     .info-wrapper {
@@ -115,6 +115,7 @@
         width: var(--content-width);
         padding-top: 3em;
         margin: 0 auto;
+        color: white;
     }
 
     h1 {
@@ -147,7 +148,8 @@
     .recipe-info-wrapper {
         display: flex;
         justify-content: space-between;
-        height: 300px;
+        height: max-content;
+        padding-bottom: 40px;
     }
 
     .info-item {
@@ -169,7 +171,7 @@
     }
 
     .ingredients {
-        border-top: 5px solid black;
+        border-top: 5px solid var(--accent);
         width: 500px;
         text-align: left; 
     }
@@ -177,7 +179,7 @@
     .steps {
         width: calc(700px - 5%);
         text-align: left;
-        border-top: 5px solid black;
+        border-top: 5px solid var(--accent);
     }
 
     h2 {
@@ -185,7 +187,7 @@
         margin-bottom: 40px;
     }
 
-    .ingredients h4 {
+    .ingredients p {
         font-weight: 400;
         font-size: 20px; 
         position: relative;
@@ -199,5 +201,99 @@
 
     .steps p {
         font-size: 20px;
+    }
+
+    @media (max-width: 900px) {
+
+        .recipe-description-wrapper {
+            width: 100%;
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .recipe-description-wrapper p {
+            color: white;
+            max-width: 45ch;
+            left: 20px;
+        }
+        
+        .recipe-outer {
+            width: 100%;
+        }
+        .recipe-header-wrapper {
+            flex-direction: column;
+            width: 100%;
+            height: 350px;
+        }
+
+        .recipe-header-wrapper img {
+            width: 100%;
+            border-radius: 0;
+        }
+
+        .title-wrapper {
+            border-bottom: 5px solid var(--accent);
+            position: relative;
+            height: 30px;
+        }
+
+        .title-wrapper h1 {
+            font-size: 30px;
+            font-weight: 400;
+            text-align: left;
+            margin: 0;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+
+        }
+
+        .title-wrapper {
+            height: 500px;
+            width: 640px;
+            border-bottom: none;
+        }
+
+        .recipe-info-wrapper {
+            flex-direction: column;
+        }
+
+        .info-item {
+            margin-left: 20px;
+        }
+
+        .instructions {
+            flex-direction: column;
+        }
+
+        .instructions h2, .instructions h4 {
+            font-size: 20px;
+            margin-left: 20px;
+            margin-bottom: 0;
+        }
+
+
+        .instructions p {
+            font-size: 15px;
+            margin-left: 20px;
+        }
+
+        .ingredients, .steps {
+            padding: 20px 0 10px 0;
+            border-top: 1px solid var(--accent);
+        }
+
+        .steps h4 {
+            margin-top: 20px;
+        }
+
+        .steps p {
+            max-width: 45ch;
+        }
+
+        .steps {
+            margin-bottom: 80px;
+        }
+
     }
 </style>

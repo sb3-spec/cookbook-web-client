@@ -2,12 +2,21 @@
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { getRecipesByTag } from "../api/recipeFunctions";
     import RecipeSlideshow from "./RecipeSlideshow.svelte";
+    import { createEventDispatcher } from "svelte";
 
     export let tag = "";
     export let title = "";
     let recipes = [];
 
     let auth =  getAuth();
+
+    const dispatch = createEventDispatcher();
+
+    function forward(event) {
+        dispatch('confirmDelete', {
+            text: event.detail.text
+        });
+    }
 
     onAuthStateChanged(auth, user => {
         if (user !== null) {
@@ -22,4 +31,4 @@
 
 </script>
 
-<RecipeSlideshow title={title} recipes={recipes} />
+<RecipeSlideshow title={title} recipes={recipes} on:confirmDelete={forward}/>
