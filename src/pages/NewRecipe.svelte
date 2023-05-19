@@ -44,8 +44,6 @@
         image.style.transform = "translateX(-20px) translateY(-18px)";
         image.id = `${type}-delete-${type === "ingredient" ? ingredientCount : type === "step" ? stepCount : "tag"}`;
 
-        console.log(image.id);
-
         // region: Element Functions
         function deleteItem(e) {
 
@@ -118,7 +116,7 @@
 
         label.textContent = `${type === "ingredient" ?  `${ingredientCount}.` : `${stepCount}.`}`;
 
-        label.style.color = "black";
+        label.style.color = "white";
         label.style.fontSize = "16px";
         label.id = `${type}-label-${type === "ingredient" ?  ingredientCount : stepCount}`;
 
@@ -237,7 +235,7 @@
         max-width: 600px;
         margin: 0 auto;
         text-align: left;
-        background: var(--gradient-main);
+        background: transparent;
         padding: 2em 3em 3em 3em;
         min-height: 400px;
         position: relative;
@@ -245,7 +243,7 @@
 
     button {
         border: none;
-        font-weight: 100;
+        font-weight: 400;
         font-size: 16px;
         position: absolute;
         right: 0;
@@ -261,7 +259,7 @@
     input {
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid white;
+        border-bottom: 1px solid var(--accent);
         color: white;
         font-size: 16px;
         font-weight: 100;
@@ -272,9 +270,14 @@
         margin-bottom: 15px;
     }
 
+    #step-container label, #ingredient-container label {
+        color: var(--text);
+        font-weight: 300;
+    }
+
     label {
         color: white;
-        font-weight: 100;
+        font-weight: 300;
         font-size: 23px;
         margin-bottom: 5px;
         position: relative;
@@ -311,10 +314,17 @@
         /* max-height: 30px; */
         position: relative;
         font-size: 20px;
+        background-color: var(--accent);
     }
 
     /* .submit:hover {
         color: white;
         background-color: rgb(255, 46, 46);
     } */
+
+    @media (max-width: 900px) {
+        .new-recipe-outer {
+            margin-bottom: 40px;
+        }
+    }
 </style>

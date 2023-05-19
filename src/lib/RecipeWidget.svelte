@@ -6,7 +6,6 @@
     const dispatch = createEventDispatcher();
 
     let optionsModal = false;
-    let confirmDelete = true;
 
     function sendDeleteConfirm() {
         dispatch('confirmDelete', {
@@ -53,7 +52,8 @@
 
 
 <style>
-
+    
+    
     
 
     .recipe-widget-menu {
@@ -84,18 +84,17 @@
     }
 
     .recipe-widget-outer {
-        background: var(--accent-color-main);
+        background-color: var(--primary-button);
+        border-radius: 5px;
         height: 278px;
         width: 235px;
-        transition: all 200ms ease;
+        transition: all 400ms ease;
         position: relative;
-        cursor: pointer;
-        color: white;
-        
+        cursor: pointer;        
     }
 
     a {
-        color: white;
+        color: black;
     }
 
     .recipe-widget-outer:hover {
@@ -104,7 +103,7 @@
 
     h3 {
         margin: 0;
-        font-weight: 100;
+        font-weight: 300;
         font-size: 25px;
     }
 
@@ -116,6 +115,7 @@
         object-fit: cover;
         height: 100%;
         width: 100%;
+        border-radius: 5px 5px 0 0;
     }
 
     p {
@@ -123,5 +123,15 @@
         bottom: 10px;
         margin: 0 auto;
         left: 10px;
+    }
+
+    
+
+    @media (max-width: 900px) {
+        .recipe-widget-outer {
+            margin: 0 auto;
+            width: 65%;
+            height: 350px;
+        }
     }
 </style>

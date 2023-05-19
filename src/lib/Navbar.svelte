@@ -1,10 +1,12 @@
 <script>
     import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { frontendHost } from "../utils/hosts";
 
     $: showNav = false;
     $: logoutModalActive = false;
     let userName = "";
 
+    let currentPage = window.location.href;
 
     let auth = getAuth();
     async function handleLogout() {
@@ -30,21 +32,39 @@
 {#if showNav && !window.location.href.includes('login')}
 
     <div class="navbar-outer">
-        <div class="logo-container" on:click={() => {window.location.replace("/#/")}} on:keypress={() => {
-            console.log("");
-        }}>
-            <img src="./assets/cookbook.png" alt="Cookbook icon">
-            <h2>Digital Cookbook</h2>
+        <div class="logo-container" on:click={() => {
+            window.location.href = frontendHost + "#/";
+            currentPage = '/#/'
+            }} on:keypress={() => {window.location.replace("/#/")}}>
+            <span class='img-helper'></span><img src="./assets/cookbook.png" alt="Cookbook icon">
+            <h2>Cookbook</h2>
         </div>
         <nav>
             <!-- <a href="/#/recipes">Your Recipes</a> -->
-            <a href="/#/">Dashboard</a>
+            <a href="/#/" >Dashboard</a>
             <!-- <a href="/#/explore">Explore</a> -->
-            <a href="/#/new-recipe" id="new-recipe">New Recipe</a>
-            <button class="logout" on:click|preventDefault={() => {logoutModalActive = true}}><p>Sign out</p></button>
+            <a href="/#/new-recipe" id="new-recipe" on:click={() => {currentPage="new-recipe"}}>New Recipe</a>
+            <button class="logout" on:click|preventDefault={() => {logoutModalActive = true}}><p>Sign out</p><img src="./assets/nav-icons/logout.png" alt="logout icon" /></button>
         </nav>
         
     </div>
+
+    <nav class="mobile-nav">
+        <a href="/#/" on:click={() => {currentPage="/#/"}}>
+            {#if currentPage.endsWith("/#/")}
+                <img src={"./assets/nav-icons/house.png"} alt="Home symbol">
+            {:else}
+                <img src={"./assets/nav-icons/house_inactive.png"} alt="Home symbol">
+            {/if}
+        </a>
+        <a href="/#/new-recipe" on:click={() => {currentPage="new-recipe"}}>
+            {#if currentPage.endsWith("new-recipe")}
+                <img src="./assets/nav-icons/tab.png" alt="New Recipe Symbol">
+            {:else}
+                <img src="./assets/nav-icons/tab_inactive.png" alt="New Recipe Symbol">
+            {/if}
+        </a>
+    </nav>
 {/if}
 
 {#if logoutModalActive}
@@ -69,10 +89,22 @@
         background-color: rgba(0 0 0 / .8);
     }
 
+    
+
+    .mobile-nav {
+        display: none;
+    }
+
     .logout-modal h3 {
-        color: black;
-        font-weight: 100;
+        color: var(--text);
+        font-weight: 300;
         font-size: 30px;
+    }
+
+    .img-helper {
+        display: inline-block;
+        height: 60px;
+        vertical-align: middle;
     }
 
     .logout-wrapper {
@@ -88,21 +120,37 @@
     .logo-container {
         display: flex;
         cursor: pointer;
+        white-space: nowrap;
+        margin: 0 auto;
+        position: absolute;
+        border-right: 1px solid #676767;
+        padding: 0 10px;
+        padding-right: 40px;
+        gap: 10px;
     }
+
+    .logo-container img {
+        height: 35px;
+        display: block;
+        margin: auto;
+    }
+
+    nav {
+        position: absolute;
+        right: 0;
+    }
+
+
     h2 {
-        max-width: 10ch;
-        font-size: 18px;
+        font-size: 32px;
         margin: 0;
-        background: var(--accent-color-main);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: white;
+        line-height: 60px;
         position: relative;
-        bottom: -5px;
     }
     .navbar-outer {
-        background-color: white;
-        border-bottom: 1px solid #ccc;
+        background-color: var(--background);
+        border-bottom: 1px solid #676767;
         position: relative;
         height: 60px;
         display: flex;
@@ -115,9 +163,6 @@
         padding-left: 2em;
     }
 
-    img {
-        height: 90%;
-    }
 
     nav {
         display: flex;
@@ -127,11 +172,15 @@
         padding-right: 30px;
     }
 
+    button img {
+        display: none;
+    }
+
 
 
     nav a {
         font-size: 15px;
-        color: rgb(70, 70, 70);
+        color: var(--text);
         font-weight: 600;
         margin: 0;
         /* position: relative;
@@ -143,12 +192,12 @@
     }
 
     a:hover {
-        border-bottom: 5px solid black;
+        border-bottom: 5px solid var(--primary-button);
     }
 
     .logout {
         padding: 0px;
-        color: rgb(70, 70, 70);
+        color: var(--text);
         background-color: transparent;
         border: none;
         transition: all ease 100ms;
@@ -156,10 +205,14 @@
         font-size: 15px;
     }
 
+    .logout  p:hover {
+        border-bottom: none;
+    }
+
     .logout:hover {
         border: none;
-        /* border-bottom: 5px solid black;
-        border-radius: 0; */
+        border-bottom: 5px solid var(--primary-button);
+        border-radius: 0;
     }
 
     p {
@@ -170,10 +223,89 @@
     }
 
     p:hover {
-        border-bottom: 5px solid black;
+        border-bottom: 5px solid var(--primary-button);
     }
 
     .logout:focus-visible {
         outline: none;
+    }
+
+    @media (max-width: 900px) {
+        .navbar-outer {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .mobile-nav {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(56, 56, 56, .8);
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(56, 56, 56, .2);
+
+        }
+
+        .mobile-nav a {
+            display: inline-block;
+            color: white;
+            line-height: 60px;           
+        }
+
+        nav a {
+            line-height: 100%;
+            vertical-align: middle;
+            display: none;
+        }
+
+        .mobile-nav a img {
+            width: 28px;
+            height: 28px;
+            vertical-align: middle;
+        }
+
+        nav {
+            padding: 0;
+            right: 10px;
+            position: absolute;
+        }
+
+        button img {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+        }
+
+        button p {
+            display: none;
+        }
+
+        .logo-container {
+            margin: 0;
+            border-right: none;
+        }
+
+        .logo-container h2 {
+            display: inline;
+            font-size: 20px;
+            line-height: 60px;
+            vertical-align: middle;
+            height: auto;
+        }
+
+        .logo-container img {
+            height: 35px;
+            line-height: 60px;
+            vertical-align: middle;
+        }
     }
 </style>

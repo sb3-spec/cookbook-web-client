@@ -17,6 +17,12 @@
 
   --accent-color-main: #189AB4;
 
+  --text: white;
+  --background: rgb(41, 41, 41);
+  --primary-button: #edcf3b;
+  --secondary-button: #f7f9fd;
+  --accent: #b19710;
+
 }
 
 a {
@@ -38,7 +44,7 @@ body {
   place-items: center;
   min-width: 320px;
   height: 100%;
-  background-color: #fcf9f6;
+  background-color: var(--background);
 }
 
 h1 {

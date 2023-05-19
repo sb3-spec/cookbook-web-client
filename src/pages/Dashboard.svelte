@@ -62,7 +62,7 @@
 <div class="dashboard-outer">
     <!-- <RecentRecipes /> -->
     <RecipeSlideshow title="Your Recipes" recipes={recipes} on:confirmDelete={forward}/>
-    <RecipesByTag title="What to Cook This Week" tag="Weeknight-Dinner" />
+    <RecipesByTag title="What to Cook This Week" tag="Weeknight-Dinner"  on:confirmDelete={forward}/>
 
 </div>
 

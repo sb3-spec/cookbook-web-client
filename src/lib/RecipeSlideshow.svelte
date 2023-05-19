@@ -15,7 +15,16 @@
     onMount(() => {
         const swiper = new Swiper('.swiper-container', {
             modules: [Navigation],
-            slidesPerView: 4,
+            slidesPerView: 1,
+            breakpoints: {
+                600: {
+                    slidesPerView: 2
+                },
+                900: {
+                    slidesPerView: 4
+                },
+
+            },
             // spaceBetween: 100,
             navigation: {
                 nextEl: '.swiper-button-next',
@@ -41,8 +50,8 @@
             </div>
         {/each}
     </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev btn"></div>
+    <div class="swiper-button-next btn"></div>
    
 </div>
 
@@ -64,7 +73,7 @@
         width: calc(var(--content-width) + 10%);
         margin: 0 auto;
         position: relative;
-        border-top: 5px solid black;
+        border-top: 5px solid var(--accent);
         margin-bottom: 150px;
         padding-bottom: 1em;
 
@@ -81,12 +90,35 @@
     }
 
     h2 {
-        font-weight: 100;
-        font-size: 35px;
+        font-weight: 600;
+        font-size: 45px;
+        color: var(--text)
+    }
+
+    .btn {
+        color: var(--primary-button);
     }
 
     /* .swiper-wrapper {
         transform: translateX(40px) !important;
        
     } */
+
+    @media (max-width: 900px) {
+        .swiper-container {
+            width: auto;
+        }
+
+        h2 {
+            font-size: 30px;
+        }
+
+        .swiper-button-next {
+            right: 10px;
+        }
+
+        .swiper-button-prev {
+            left: 10px;
+        }
+    }
 </style>

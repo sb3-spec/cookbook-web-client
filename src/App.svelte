@@ -10,8 +10,8 @@
   import Login from "./pages/Login.svelte";
   import NewRecipe from "./pages/NewRecipe.svelte";
   import { api } from "./utils/RecipeApi";
-    import Recipe from "./pages/Recipe.svelte";
-    import { frontendHost } from "./utils/hosts";
+  import Recipe from "./pages/Recipe.svelte";
+  import { frontendHost } from "./utils/hosts";
 
   // VARS
 
@@ -61,6 +61,7 @@
 <style>
   main {
     height: 100%;
+    width: 100%;
     overflow-y: scroll;
   }
 </style>
