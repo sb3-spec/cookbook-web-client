@@ -134,7 +134,9 @@
         padding: 0 10px;
         padding-right: 40px;
         gap: 10px;
-    }
+        }
+
+    
 
     .logo-container img {
         height: 35px;
@@ -151,7 +153,7 @@
     h2 {
         font-size: 32px;
         margin: 0;
-        color: white;
+        color: var(--primary-button);
         line-height: 60px;
         position: relative;
     }

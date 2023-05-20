@@ -221,7 +221,7 @@
 <style>
 
     .new-recipe-outer {
-        padding-top: 1.5em;
+        padding-top: 3em;
     }
 
     #ingredient-container, #step-container {
@@ -314,7 +314,7 @@
         /* max-height: 30px; */
         position: relative;
         font-size: 20px;
-        background-color: var(--accent);
+        background-color: var(--primary-button);
     }
 
     /* .submit:hover {

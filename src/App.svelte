@@ -24,15 +24,23 @@
     '/:recipeTitle': Recipe
   }
 
+  let root = document.documentElement;                                                                                                                                                                                              
+
+  
+
 
   
 
   onMount(() => {
+
+    
+
     let auth = getAuth();
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
         user = user;
+        root.style.setProperty("--scroll-type", "scroll");
 
         // sync users from firebase to my backend
         // attemps to create a new user on the backend with every auth change, returns an error if the user exists
@@ -47,6 +55,7 @@
           // }
         })
       } else {
+        root.style.setProperty("--scroll-type", "hidden");
         window.location.replace(frontendHost + "#/login");
       }
     })
@@ -62,6 +71,6 @@
   main {
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: var(--scroll-type)
   }
 </style>
