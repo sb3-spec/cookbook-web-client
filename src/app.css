@@ -23,6 +23,8 @@
   --secondary-button: #f7f9fd;
   --accent: #b19710;
 
+  --scroll-type: 'hidden';
+
 }
 
 a {
@@ -73,7 +75,15 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent);
+}
+
+
+
+.logo-container img {
+  height: 35px;
+  display: block;
+  margin: auto;
 }
 
 @media (prefers-color-scheme: light) {

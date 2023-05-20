@@ -26,36 +26,67 @@
 </script>
 
 <div class="login-outer">
-    <h1>Digital Cookbook</h1>
+    <div class="logo-container">
+        <img src="./assets/cookbook.png" alt="Cookbook icon">
+        <h2>Cookbook</h2>
+    </div>
     <div id="firebase-auth-container">
         <h3>Login</h3>
-
     </div>
 </div>
 
 <style>
     .login-outer {
-        background: var(--gradient-main);
+        background-color: var(--background);
         height: 100%;
         position: relative;
-        padding: 3em;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logo-container {
+        display: flex;
+        cursor: pointer;
+        white-space: nowrap;
+        margin: 0 auto;
+        padding: 0 10px;
+        padding-right: 40px;
+        gap: 10px;
+    }
+
+    .logo-container img {
+        height: 90px;
+        display: block;
+        margin: auto;
+    }
+
+    h2 {
+        color: var(--primary-button);
+        font-size: 60px;
     }
 
     h3 {
-        font-weight: 100;
+        font-weight: 400;
         font-size: 45px;
     }
 
-    h1 {
-        color: white;
-    }
-
     #firebase-auth-container {
-        max-width: 500px;
+        width: 400px;
         margin: 0 auto;
-        background-color: white;
+        background-color: var(--text);
+        backdrop-filter: blur(20px);
         border-radius: 15px;
         padding-bottom: 1em;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    @media (max-width: 900px) {
+        h2 {
+            font-size: 40px;
+        }
+
+        .logo-container img {
+            height: 40px;
+        }
     }
 </style>

@@ -1,12 +1,18 @@
 <script>
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { frontendHost } from "../utils/hosts";
+    import { onMount } from "svelte";
 
     $: showNav = false;
     $: logoutModalActive = false;
     let userName = "";
 
     let currentPage = window.location.href;
+
+    onMount(() => {
+        currentPage = window.location.href;
+        console.log(currentPage);
+    })
 
     let auth = getAuth();
     async function handleLogout() {
@@ -43,7 +49,7 @@
             <!-- <a href="/#/recipes">Your Recipes</a> -->
             <a href="/#/" >Dashboard</a>
             <!-- <a href="/#/explore">Explore</a> -->
-            <a href="/#/new-recipe" id="new-recipe" on:click={() => {currentPage="new-recipe"}}>New Recipe</a>
+            <a href="/#/new-recipe" id="new-recipe">New Recipe</a>
             <button class="logout" on:click|preventDefault={() => {logoutModalActive = true}}><p>Sign out</p><img src="./assets/nav-icons/logout.png" alt="logout icon" /></button>
         </nav>
         
@@ -51,7 +57,7 @@
 
     <nav class="mobile-nav">
         <a href="/#/" on:click={() => {currentPage="/#/"}}>
-            {#if currentPage.endsWith("/#/")}
+            {#if currentPage === frontendHost || currentPage.endsWith('/')}
                 <img src={"./assets/nav-icons/house.png"} alt="Home symbol">
             {:else}
                 <img src={"./assets/nav-icons/house_inactive.png"} alt="Home symbol">
@@ -111,7 +117,8 @@
         margin: 0 auto;
         position: relative;
         bottom: -40%;
-        background-color: white;
+        backdrop-filter: blur(20px);
+        background-color: rgba(54, 54, 54, .8);
         width: 400px;
         padding: 2em;
         border-radius: 15px;
@@ -127,7 +134,9 @@
         padding: 0 10px;
         padding-right: 40px;
         gap: 10px;
-    }
+        }
+
+    
 
     .logo-container img {
         height: 35px;
@@ -144,7 +153,7 @@
     h2 {
         font-size: 32px;
         margin: 0;
-        color: white;
+        color: var(--primary-button);
         line-height: 60px;
         position: relative;
     }
@@ -249,7 +258,7 @@
             width: 100%;
             height: 60px;
             background-color: rgba(56, 56, 56, .8);
-            z-index: 20;
+            z-index: 14;
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(56, 56, 56, .2);
 
@@ -306,6 +315,17 @@
             height: 35px;
             line-height: 60px;
             vertical-align: middle;
+        }
+
+        .logout-wrapper {
+            width: 300px;
+        }
+
+        .logout-wrapper button {
+            width: 80%;
+            margin-top: 10px;
+            background-color: button-primary;
+            border: 1px solid black;
         }
     }
 </style>
