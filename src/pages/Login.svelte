@@ -85,8 +85,23 @@
             font-size: 40px;
         }
 
+        h3 {
+            font-size: 35px;
+            font-weight: 300;
+        }
+
         .logo-container img {
             height: 40px;
+        }
+
+        #firebase-auth-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: var(--text);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding-bottom: 1em;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         }
     }
 </style>
