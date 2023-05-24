@@ -27,7 +27,7 @@ export const getRecipes = async () => {
         
 
     } catch (e) {
-        alert('Error fetching recipes: ' + e.message);
+        console.log('Error fetching recipes: ' + e.message);
         recipes = [];
     }
 
