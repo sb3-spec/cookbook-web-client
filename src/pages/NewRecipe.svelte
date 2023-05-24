@@ -116,7 +116,7 @@
 
         label.textContent = `${type === "ingredient" ?  `${ingredientCount}.` : `${stepCount}.`}`;
 
-        label.style.color = "white";
+        label.style.color = "black";
         label.style.fontSize = "16px";
         label.id = `${type}-label-${type === "ingredient" ?  ingredientCount : stepCount}`;
 
@@ -125,11 +125,11 @@
         // region: Input attributes
 
         input.style.border = 'none';
-        input.style.borderBottom = "1px solid white";
+        input.style.borderBottom = "1px solid black";
         input.style.backgroundColor = "transparent";
         input.style.width = "100%";
         input.style.outline = "none";
-        input.style.color = "white";
+        input.style.color = "black";
         input.style.padding = "0";
         input.style.boxShadow = "none";
         input.style.fontSize = "16px";
@@ -235,7 +235,8 @@
         max-width: 600px;
         margin: 0 auto;
         text-align: left;
-        background: transparent;
+        background-color: var(--background);
+        border: 1px solid #bdbdbd;
         padding: 2em 3em 3em 3em;
         min-height: 400px;
         position: relative;
@@ -254,13 +255,14 @@
     textarea {
         min-height: 70px;
         border: none;
+        color: black;
     }
 
     input {
         background-color: transparent;
         border: none;
         border-bottom: 1px solid var(--accent);
-        color: white;
+        color: black;
         font-size: 16px;
         font-weight: 100;
         width: 100%;
@@ -271,12 +273,12 @@
     }
 
     #step-container label, #ingredient-container label {
-        color: var(--text);
+        color: black;
         font-weight: 300;
     }
 
     label {
-        color: white;
+        color: black;
         font-weight: 300;
         font-size: 23px;
         margin-bottom: 5px;
@@ -285,13 +287,13 @@
 
     input::-webkit-input-placeholder {
         font-weight: 100;
-        color:white;
+        color:black;
         opacity: .7;
     }
 
     input::-ms-input-placeholder {
         font-weight: 100;
-        color:white;
+        color:black;
     }
 
     input:focus, input:focus-visible, input:focus, textarea:focus-visible {
@@ -314,13 +316,15 @@
         /* max-height: 30px; */
         position: relative;
         font-size: 20px;
+        color: white;
         background-color: var(--primary-button);
     }
 
-    /* .submit:hover {
-        color: white;
-        background-color: rgb(255, 46, 46);
-    } */
+    .submit:hover {
+        color: var(--primary-button);
+        background-color: white;
+        transition: all 200ms;
+    }
 
     @media (max-width: 900px) {
         .new-recipe-outer {
