@@ -73,7 +73,7 @@
         width: calc(var(--content-width) + 10%);
         margin: 0 auto;
         position: relative;
-        border-top: 5px solid var(--accent);
+        border-top: 5px solid black;
         margin-bottom: 150px;
         padding-bottom: 1em;
 
@@ -90,9 +90,11 @@
     }
 
     h2 {
-        font-weight: 600;
+        font-weight: 300;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
         font-size: 45px;
-        color: var(--text)
+        color: black;
     }
 
     .btn {

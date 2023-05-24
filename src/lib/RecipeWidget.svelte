@@ -64,7 +64,7 @@
         backdrop-filter: blur(40px);
         z-index: 5;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        border-radius: 10px;
+        border-radius: 5px;
         padding: 5px 5px;
         color: black;
         width: 60px;
@@ -84,13 +84,14 @@
     }
 
     .recipe-widget-outer {
-        background-color: var(--primary-button);
+        background-color: white;
         border-radius: 5px;
         height: 278px;
         width: 235px;
         transition: all 400ms ease;
         position: relative;
-        cursor: pointer;        
+        cursor: pointer;     
+        border: 1px solid #bdbdbd;   
     }
 
     a {

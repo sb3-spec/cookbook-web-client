@@ -130,7 +130,7 @@
         white-space: nowrap;
         margin: 0 auto;
         position: absolute;
-        border-right: 1px solid #676767;
+        border-right: 1px solid #bdbdbd;
         padding: 0 10px;
         padding-right: 40px;
         gap: 10px;
@@ -158,8 +158,8 @@
         position: relative;
     }
     .navbar-outer {
-        background-color: var(--background);
-        border-bottom: 1px solid #676767;
+        background-color: white;
+        border-bottom: 1px solid #bdbdbd;
         position: relative;
         height: 60px;
         display: flex;
@@ -189,7 +189,7 @@
 
     nav a {
         font-size: 15px;
-        color: var(--text);
+        color: black;
         font-weight: 600;
         margin: 0;
         /* position: relative;
@@ -229,6 +229,7 @@
         line-height: 60px;
         vertical-align: middle;
         transition: all 100ms ease;
+        color: black;
     }
 
     p:hover {
