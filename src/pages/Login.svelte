@@ -8,16 +8,18 @@
 
     onMount(() => {
         var ui = new firebaseui.auth.AuthUI(getAuth());
-    
-        ui.start('#firebase-auth-container', {
+
+        const uiConfig = {
             signInOptions: [
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.GithubAuthProvider.PROVIDER_ID
             ],
-            
+            signInFlow: 'popup',
             signInSuccessUrl: frontendHost
-        });
+        };
+    
+        ui.start('#firebase-auth-container', uiConfig);
 
     })
 
