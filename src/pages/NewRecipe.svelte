@@ -9,6 +9,15 @@
     $: stepCount = 1;
     $: ingredientCount = 1;
     $: tagCount = 0;  
+
+    let scrapedRecipe = {};
+    let scrapeUrl = "";
+
+    let title = "";
+    let description = "";
+    let scraped_image_url = "";
+    let initStep = "";
+    let initIngredient = "";
     
     let auth = getAuth();
     // let user = auth.currentUser;
@@ -22,8 +31,43 @@
         }
     });
 
+    async function tryScrapeRecipe() {
+        api.get("/recipes/scrape/" + encodeURIComponent(scrapeUrl)).then(res => {
 
-    function handleNewItem(type) {
+            // Fill out form from scraped data
+            scrapedRecipe = res.data.data;
+            title = scrapedRecipe["title"];
+            description = scrapedRecipe["description"];
+            scraped_image_url = scrapedRecipe["image"];
+
+
+
+            scrapedRecipe["steps"].forEach((step, index) => {
+                if (index === 1) {
+                    initStep = step;
+                } else {
+                    handleNewItem("step", step);
+                }
+            })
+
+            scrapedRecipe["ingredients"].forEach((ingr, index) => {
+                if (index === 1) {
+                    initIngredient = ingr;
+                } else {
+                    handleNewItem("ingredient", ingr);
+                }
+            })
+
+            scrapeUrl = "";
+            alert("Recipe scraped successfully");
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+    
+
+    function handleNewItem(type, content) {
+        
 
         if (type === "step") {
             stepCount++;
@@ -34,14 +78,19 @@
         }
         
         const container = document.getElementById(`${type}-container`);
-        var input = document.createElement('input');
+        var input = document.createElement('textarea');
         var label = document.createElement('label');
         let image = document.createElement('img');
+
+        if (content) {
+            input.value = content;
+        }
     
         image.src = "/assets/cross.png";
         image.style.position = "absolute";
         image.style.width = "15px";
-        image.style.transform = "translateX(-20px) translateY(-18px)";
+        image.style.right = "0px";
+        image.style.transform = "translateY(-100px)";
         image.id = `${type}-delete-${type === "ingredient" ? ingredientCount : type === "step" ? stepCount : "tag"}`;
 
         // region: Element Functions
@@ -101,12 +150,10 @@
         image.addEventListener("click", deleteItem, false);
 
         image.onmouseover = function(e) {
-            image.style.scale = "1.1";
             image.style.cursor = "pointer";
         };
 
         image.onmouseleave = function(e) {
-            image.style.scale = "1";
             image.style.cursor = "none";
         };
 
@@ -125,19 +172,23 @@
         // region: Input attributes
 
         input.style.border = 'none';
-        input.style.borderBottom = "1px solid black";
-        input.style.backgroundColor = "transparent";
         input.style.width = "100%";
+        input.rows = 3;
         input.style.outline = "none";
         input.style.color = "black";
         input.style.padding = "0";
+        input.style.paddingLeft = "5px";
         input.style.boxShadow = "none";
         input.style.fontSize = "16px";
-        input.style.marginBottom = "15px";
+        input.style.marginBottom = "10px";
         input.name = `${type}-${type === "ingredient" ? ingredientCount : stepCount}`;
         input.id = `${type}-${type === "ingredient" ?  ingredientCount : stepCount}`;
 
         // endregion: Input attributes
+
+        if (type === "ingredient") {
+            label.style.opacity = "0";
+        }
 
 
         container.appendChild(label);
@@ -163,7 +214,7 @@
             }
             // alert(`${name} = ${value}`); // key1 = value1, then key2 = value2
         }
-        res.image_url = await uploadImage(res.image_url);
+        res.image_url = scraped_image_url ? scraped_image_url : await uploadImage(res.image_url);
         console.log(res.image_url);
         res.tags = [res.tags];
 
@@ -187,12 +238,20 @@
 </script>
 
 <div class="new-recipe-outer">
+    <div class="option-container">
+        <h4>Grab recipe from website?</h4>
+        <label for="recipeUrl">Enter recipe URL</label>
+        <span>
+            <input type="text" bind:value={scrapeUrl} name="recipeUrl">
+            <button on:click|preventDefault={tryScrapeRecipe} disabled={!scrapeUrl || !scrapeUrl.startsWith("https")}>Convert</button>
+        </span>
+    </div>
     <form on:submit|preventDefault={handleNewRecipe}>
         <label for="title">Recipe Title</label>
-        <input name="title" type="text" placeholder="Chicken Parmesean" class="title">
+        <input bind:value={title} name="title" type="text" placeholder="Chicken Parmesean" class="title" id="title">
 
         <label for="header">Description</label>
-        <textarea name="header" placeholder="Write a brief description"></textarea>
+        <textarea rows="5" bind:value={description} name="header" placeholder="Write a brief description"></textarea>
 
         <label for="cook_time">Cook-Time</label>
         <input type="text" name="cook_time">
@@ -200,21 +259,24 @@
         <label for="steps">Steps<button on:click|preventDefault={(e) => {handleNewItem("step")}}>Add Step</button></label>
         <div id="step-container">
             <label class="step-count" for="step-1">1.</label>
-            <input type="text" placeholder="Heat oven to 350F" name="step-1">
+            <textarea rows="3" placeholder="Heat oven to 350F" name="step-1" bind:value={initStep}></textarea>
         </div>
 
         <label for="ingredients">Ingredients<button on:click|preventDefault={(e) => {handleNewItem("ingredient")}}>Add Ingredient</button></label>
         <div id="ingredient-container">
-            <label class="ingredient-count" for="ingredient">1.</label>
-            <input type="text" placeholder="Rice Wine Vinegar: 3oz" name="ingredient">
+            <textarea rows="3" placeholder="Rice Wine Vinegar: 3oz" name="ingredient" bind:value={initIngredient}></textarea>
         </div>
 
         <label for="tags">Tags</label>
         <input type="text" name="tags" placeholder="Easy-Dinner">
 
         <label for="image_url">Recipe Image</label>
-        <input type="file" name="image_url" class="file-input">
-        <button type="submit" class="submit">Submit</button>
+        {#if !scraped_image_url}
+            <input type="file" name="image_url" class="file-input">
+        {:else}
+            {scraped_image_url}
+        {/if}
+        <button type="submit" class="submit" disabled={!title || !description}>Submit</button>
     </form>
 </div>
 
@@ -226,7 +288,14 @@
 
     #ingredient-container, #step-container {
         position: relative;
+        margin-bottom: 30px;
     }
+
+    #step-container textarea, #ingredient-container textarea {
+        width: 100%;
+        font-size: 16px;
+    }
+    
 
     form {
         box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
@@ -242,6 +311,35 @@
         position: relative;
     }
 
+    .option-container {
+        width: 400px;
+        margin: 0 auto;
+        padding-bottom: 40px;
+    }
+
+    .option-container input {
+        margin: 0;
+        height: 100%;
+        padding: 0 5px;
+        border: 1px solid black;
+        background-color: white;
+    }
+
+    .option-container span {
+        display: flex;
+        height: 25px;
+    }
+    .option-container button {
+        position: relative;
+        box-sizing: content-box;
+        height: 100%;
+        border-radius: 0;
+        padding: 0 5px;
+        top: 0;
+        border: 1px solid black;
+        border-left: none;
+    }
+
     button {
         border: none;
         font-weight: 400;
@@ -252,10 +350,19 @@
         top: 5px;
     }
 
+    button:disabled {
+        color: gray;
+        background-color: white;
+    }
+
+    button:disabled:hover {
+        color: gray;
+    }
+
     textarea {
-        min-height: 70px;
         border: none;
         color: black;
+        font-size: 16px;
     }
 
     input {
@@ -279,7 +386,7 @@
 
     label {
         color: black;
-        font-weight: 300;
+        font-weight: 400;
         font-size: 23px;
         margin-bottom: 5px;
         position: relative;

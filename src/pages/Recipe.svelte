@@ -115,7 +115,7 @@
         width: var(--content-width);
         padding-top: 3em;
         margin: 0 auto;
-        color: white;
+        color: black;
     }
 
     h1 {
