@@ -379,7 +379,7 @@
         margin-bottom: 15px;
     }
 
-    #step-container label, #ingredient-container label {
+    #step-container label {
         color: black;
         font-weight: 300;
     }
@@ -411,7 +411,7 @@
         border: none;
     }
 
-    .step-count, .ingredient-count {
+    .step-count {
         font-size: 16px;
         color: black;
         margin-bottom: 15px;
@@ -436,6 +436,10 @@
     @media (max-width: 900px) {
         .new-recipe-outer {
             margin-bottom: 40px;
+        }
+
+        .option-container {
+            width: 70%;
         }
     }
 </style>
