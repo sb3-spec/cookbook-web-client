@@ -2,7 +2,6 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db } from "./db";
 
 export async function uploadImage(imageURL) {
-
     const metaData = {
         contentType: "image/jpeg"
     };

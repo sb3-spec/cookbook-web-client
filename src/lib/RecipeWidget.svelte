@@ -105,7 +105,7 @@
     h3 {
         margin: 0;
         font-weight: 300;
-        font-size: 25px;
+        font-size: 22px;
     }
 
     .img-wrapper {

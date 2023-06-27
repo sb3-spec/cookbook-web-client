@@ -11,9 +11,24 @@
 
         const uiConfig = {
             signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                firebase.auth.GithubAuthProvider.PROVIDER_ID
+                {
+                    provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                    fullLabel: "Login with Email",
+                    requireDisplayName: true,
+                    title: "Blah",
+                    customParameters: {
+                        prompt: 'consent'
+                    }
+                },
+                
+                {
+                    provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    fullLabel: "Login with Google"
+                },
+                {
+                    provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                    fullLabel: "Login with Github"
+                }
             ],
             signInFlow: 'popup',
             signInSuccessUrl: frontendHost

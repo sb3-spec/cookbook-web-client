@@ -12,6 +12,7 @@
   import { api } from "./utils/RecipeApi";
   import Recipe from "./pages/Recipe.svelte";
   import { frontendHost } from "./utils/hosts";
+  import Test from "./pages/Test.svelte";
 
   // VARS
 
@@ -21,7 +22,8 @@
     '/': Dashboard,
     '/login': Login,
     '/new-recipe': NewRecipe,
-    '/:recipeTitle': Recipe
+    '/test': Test,
+    '/:recipeTitle': Recipe,
   }
 
   let root = document.documentElement;                                                                                                                                                                                              
@@ -44,16 +46,21 @@
 
         // sync users from firebase to my backend
         // attemps to create a new user on the backend with every auth change, returns an error if the user exists
-        api.post("chefs", JSON.stringify({'username': user.displayName, 'firebase_id': user.uid})).then(res => {
-          console.log(1, res.status);
-      
-          console.log("New User successfully created on backend");
-        }).catch(err => {
-          console.log("User already exists on backend");
-          // if (err.status === 400) {
-            
-          // }
-        })
+
+        if (!localStorage.getItem("user")) {
+          api.post("chefs", JSON.stringify({'username': user.displayName, 'firebase_id': user.uid})).then(res => {
+            localStorage.setItem("user", JSON.stringify(res.data));
+        
+            console.log("New User successfully created on backend");
+          }).catch(err => {
+            console.log("User already exists on backend");
+            // if (err.status === 400) {
+              
+            // }
+          }).finally(() => {
+            localStorage.setItem("user", "exists");
+          })
+        }
       } else {
         root.style.setProperty("--scroll-type", "hidden");
         window.location.replace(frontendHost + "#/login");
