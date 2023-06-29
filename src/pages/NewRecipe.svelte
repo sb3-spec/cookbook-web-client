@@ -215,7 +215,6 @@
             // alert(`${name} = ${value}`); // key1 = value1, then key2 = value2
         }
         res.image_url = scraped_image_url ? scraped_image_url : await uploadImage(res.image_url);
-        console.log(res.image_url);
         res.tags = [res.tags];
 
         let authConfig = {
