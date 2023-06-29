@@ -18,7 +18,8 @@
         cook_time: '',
         tags: [],
         ingredients: [],
-        header: ''
+        header: '',
+        description: ""
     }
 
     function handleClick(e) {
@@ -27,8 +28,10 @@
         CurrentRecipeStore.set(recipe);
     }
 
-    async function handleDelete() {
-        // TODO
+
+    function handleEdit() {
+        handleClick();
+        window.location.href = frontendHost + "#/edit";
     }
 
 </script>
@@ -43,7 +46,7 @@
     {#if optionsModal}
         <div class="recipe-widget-menu">
             <button on:click|preventDefault={sendDeleteConfirm}>Delete</button>
-            <button>Edit</button>
+            <button on:click={handleEdit}>Edit</button>
         </div>
     {/if}
 </div>
@@ -52,9 +55,6 @@
 
 
 <style>
-    
-    
-    
 
     .recipe-widget-menu {
         position: absolute;

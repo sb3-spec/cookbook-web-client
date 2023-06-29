@@ -13,6 +13,7 @@
   import Recipe from "./pages/Recipe.svelte";
   import { frontendHost } from "./utils/hosts";
   import Test from "./pages/Test.svelte";
+    import EditRecipe from "./pages/EditRecipe.svelte";
 
   // VARS
 
@@ -22,7 +23,7 @@
     '/': Dashboard,
     '/login': Login,
     '/new-recipe': NewRecipe,
-    '/test': Test,
+    '/edit': EditRecipe,
     '/:recipeTitle': Recipe,
   }
 

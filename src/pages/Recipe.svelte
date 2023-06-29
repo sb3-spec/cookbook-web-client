@@ -17,6 +17,10 @@
         });
     });
 
+    function handleEdit() {
+        window.location.href = frontendHost + `#/edit`;
+    }
+
     
 </script>
 
@@ -63,13 +67,18 @@
                 {/each}
             </div>
         </div>
-
+        <button class="edit" on:click={handleEdit}>Edit Recipe</button>
     </div>
 {:else}
     <h2>Recipe Not Found</h2>
 {/if}
 
 <style>
+
+    .edit {
+        margin: 0 auto;
+        width: 400px;
+    }
     .recipe-header-wrapper {
         display: flex;
         margin-bottom: 2em;
@@ -116,6 +125,7 @@
         padding-top: 3em;
         margin: 0 auto;
         color: black;
+        padding-bottom: 30px;
     }
 
     h1 {
