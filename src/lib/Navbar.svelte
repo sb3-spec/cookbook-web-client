@@ -42,8 +42,8 @@
             window.location.href = frontendHost + "#/";
             currentPage = '/#/'
             }} on:keypress={() => {window.location.replace("/#/")}}>
-            <span class='img-helper'></span><img src="./assets/cookbook.png" alt="Cookbook icon">
-            <h2>Cookbook</h2>
+            <span class='img-helper'></span><img src="./assets/parsley.png" alt="Sprig of parsley">
+            <h2>Parsley</h2>
         </div>
         <nav>
             <!-- <a href="/#/recipes">Your Recipes</a> -->
@@ -153,7 +153,7 @@
     h2 {
         font-size: 32px;
         margin: 0;
-        color: var(--primary-button);
+        color: var(--main-color);
         line-height: 60px;
         position: relative;
     }
@@ -201,7 +201,7 @@
     }
 
     a:hover {
-        border-bottom: 5px solid var(--primary-button);
+        border-bottom: 5px solid var(--main-color);
     }
 
     .logout {
@@ -220,7 +220,7 @@
 
     .logout:hover {
         border: none;
-        border-bottom: 5px solid var(--primary-button);
+        border-bottom: 5px solid var(--main-color);
         border-radius: 0;
     }
 

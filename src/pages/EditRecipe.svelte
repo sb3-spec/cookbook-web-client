@@ -30,27 +30,24 @@
 
 
     let unsubscribe = CurrentRecipeStore.subscribe(data => {
-
+        let recipe;
         if (Object.keys(data).length === 0) {
-            let recipe = JSON.parse(localStorage.getItem('currentRecipe'));
+            recipe = JSON.parse(localStorage.getItem('currentRecipe'));
             
-            title = recipe["title"];
-            description = recipe["header"];
-            ingredients = recipe["ingredients"];
-            steps = recipe["steps"];
-            cookTime = recipe["cook_time"];
-            recipeId = recipe["id"];
-            image_url = recipe["image_url"]
+            
         } else {
-            title = data["title"];
-            description = data["header"];
-            ingredients = data["ingredients"];
-            steps = data["steps"];
-            cookTime = data["cook_time"];
-            recipeId = data["id"];
-            image_url = data["image_url"]
-
+            recipe = data
         }
+        title = recipe["title"];
+        description = recipe["header"];
+        ingredients = recipe["ingredients"];
+        steps = recipe["steps"];
+        cookTime = recipe["cook_time"];
+        recipeId = recipe["id"];
+        image_url = recipe["image_url"]
+
+        ingredientCount = ingredients.length;
+        stepCount = steps.length;
     });
 
     onDestroy(() => {
@@ -86,12 +83,25 @@
     // Just like the create recipe page, this section 
     // will either add a new and empty ingredient/step 
     // to the recipe form. 
-    function newItem(e, type) {
-        let targetContainer;
-        if (type == "ingredient") {
-            targetContainer = document.querySelector('.ingredients-container');
+    function newItem(type) {
+        if (type == "ingr") {
+            ingredients.length++;
+            ingredients[ingredients.length - 1] = "";
+            ingredientCount++;
         } else if (type == "step") {
-            targetContainer = document.querySelector('.steps-container');
+            steps.length++;
+            steps[steps.length - 1] = "";
+            stepCount++;
+        } else {return}
+    }
+
+    function deleteItem(idx, type) {
+        if (type == "ingr") {
+            ingredients = ingredients.filter((_, index) => index !== idx);
+            ingredientCount--;
+        } else if (type == "step") {
+            steps = steps.filter((_, index) => index !== idx);
+            stepCount--;
         } else {return}
     }
 
@@ -99,24 +109,47 @@
 
 <div class="recipe-edit-outer">
     <form on:submit|preventDefault={handleSubmit}>
-        <label for="title">Recipe Title</label>
-        <input type="text" name="title" bind:value={title}>
 
-        <label for="description">Description</label>
-        <textarea name="description" id="description" rows="6" bind:value={description}></textarea>
-
-        <label for="cook-time">Cook-Time</label>
-        <input type="text" name="cook-time" bind:value={cookTime} style="width: 40%;">
+        <div class="edit-recipe-header">
+            <div style="display: flex; flex-direction: column;" class="title-and-description">
+                <span style="display: flex; flex-direction: column">
+                    <label for="title">Recipe Title</label>
+                    <input type="text" name="title" bind:value={title}>
+                </span>
+                <span style="display: flex; flex-direction: column">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="6" bind:value={description}></textarea>
+                </span>
+                <span style="display: flex; flex-direction: column">
+                    <label for="cook-time">Cook-Time</label>
+                    <input type="text" name="cook-time" bind:value={cookTime} style="width: 40%;">
+                </span>
+            </div>
+            <div class="tags-and-image">
+                <div class="recipe-image">
+                    <label for="image_url">Recipe Image</label>
+                    <img src={image_url} alt={title}>
+                    <input type="file" name="image_url" class="file-input">
+                </div>
+                <div class="tags" style="margin-top: 5px;">
+                    <label for="tags">Tags</label>
+                    <input type="text" name="tags" placeholder="Easy-Dinner">
+                </div>
+            </div>
+        </div>
 
         <div class="instructions">
             <div class="steps-container">
                 <div style="display: flex; position: relative;">
                     <h4>Steps</h4>
-                    <button class="add-item">Add Step</button>
+                    <button class="add-item" on:click|preventDefault={(e) => {newItem("step")}}>Add Step</button>
                 </div>
                 <ol class="steps-list">
                     {#each steps.map((value, index) => index) as idx}
-                        <li>
+                        <li style="position: relative;">
+                            {#if idx !== 0}
+                                <button on:click|preventDefault={() => {deleteItem(idx, "step")}} type="button">X</button>
+                            {/if}
                             <textarea name={`step-${idx}`} id={`step-${idx}`} rows="3" bind:value={steps[idx]}></textarea>
                         </li>
                     {/each}
@@ -125,11 +158,14 @@
             <div class="ingredients-container">
                 <div style="display: flex; position: relative;">
                     <h4>Ingredients</h4>
-                    <button class="add-item">Add Ingredient</button>
+                    <button class="add-item" on:click|preventDefault={(e) => {newItem("ingr")}}>Add Ingredient</button>
                 </div>
                 <ul>
                     {#each ingredients.map((value, index) => index) as idx}
-                        <li>
+                        <li style="position: relative">
+                            {#if idx !== 0}
+                                <button on:click|preventDefault={() => {deleteItem(idx, "ingr")}} type="button">X</button>
+                            {/if}
                             <textarea name={`ingr-${idx}`} id={`ingr-${idx}`} rows="3" bind:value={ingredients[idx]}></textarea>
                         </li>
                     {/each}
@@ -137,17 +173,7 @@
             </div>
         </div>
 
-        <div class="tags-and-image">
-            <div class="tags" style="margin-top: 20px;">
-                <label for="tags">Tags</label>
-                <input type="text" name="tags" placeholder="Easy-Dinner">
-            </div>
-            <div class="recipe-image">
-                <label for="image_url">Recipe Image</label>
-                <img src={image_url} alt={title}>
-                <input type="file" name="image_url" class="file-input">
-            </div>
-        </div>
+        
 
         <button type="submit" class="submit" disabled={!(firstIngredient || firstStep || title || description)}>Save Recipe</button>
     </form>
@@ -157,6 +183,7 @@
 
     .recipe-edit-outer {
         padding: 30px 0;
+        position: relative;
     }
 
     .tags {
@@ -243,7 +270,7 @@
     input {
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid var(--accent);
+        border-bottom: 1px solid var(--main-color);
         color: black;
         font-size: 16px;
         font-weight: 100;
@@ -286,16 +313,16 @@
         /* max-height: 30px; */
         position: relative;
         font-size: 20px;
-        color: white;
-        background-color: var(--primary-button);
+        color: var(--main-color);
+        background-color: white;
         width: 100%;
         right: 0;
         
     }
 
     .submit:hover {
-        color: var(--primary-button);
-        background-color: white;
+        color: white;
+        background-color: var(--main-color);
         transition: all 200ms;
     }
 
@@ -321,6 +348,8 @@
     @media (min-width: 1400px) {
         .submit {
             width: 30%;
+            margin: 0 auto;
+            margin-top: 40px;
         }
 
         li textarea {
@@ -328,10 +357,8 @@
         }
 
         #description {
-            width: 40%;
+            width: 80%;
         }
-
-
 
         .instructions {
             display: grid;
@@ -339,11 +366,16 @@
         }
 
         .recipe-image img {
-            max-width: 40%;
+            max-width: 50%;
         }
 
         input { 
             width: 40%;
+        }
+
+        .edit-recipe-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
         
     }

@@ -44,8 +44,8 @@
 
 <div class="login-outer">
     <div class="logo-container">
-        <img src="./assets/cookbook.png" alt="Cookbook icon">
-        <h2>Cookbook</h2>
+        <img src="./assets/parsley.png" alt="Cookbook icon">
+        <h2>Parsley</h2>
     </div>
     <div id="firebase-auth-container">
         <h3>Login</h3>
@@ -78,7 +78,7 @@
     }
 
     h2 {
-        color: var(--primary-button);
+        color: var(--main-color);
         font-size: 60px;
     }
 

@@ -25,6 +25,9 @@
 
   --scroll-type: 'hidden';
 
+
+  /* PARSLEY REBRAND */
+  --main-color: #03c04a;
 }
 
 a {
@@ -75,7 +78,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: var(--accent);
+  border-color: var(--main-color);
 }
 
 
