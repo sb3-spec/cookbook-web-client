@@ -149,6 +149,8 @@
     .delete:hover {
         color: white;
         background-color: red;
+        border: 2px solid black;
+        transition: all 200ms ease;
     }
     .recipe-header-wrapper {
         display: flex;
@@ -160,7 +162,7 @@
     .title-wrapper {
         height: 500px;
         width: 640px;
-        border-bottom: 5px solid var(--accent);
+        border-bottom: 5px solid var(--main-color);
     }
 
 
@@ -185,6 +187,7 @@
     .recipe-description-wrapper p {
         position: absolute;
         left: 10%;
+        font-size: 19px;
     }
 
     .info-wrapper {
@@ -252,7 +255,7 @@
     }
 
     .ingredients {
-        border-top: 5px solid var(--accent);
+        border-top: 5px solid var(--main-color);
         width: 500px;
         text-align: left; 
     }
@@ -260,7 +263,7 @@
     .steps {
         width: calc(700px - 5%);
         text-align: left;
-        border-top: 5px solid var(--accent);
+        border-top: 5px solid var(--main-color);
     }
 
     h2 {

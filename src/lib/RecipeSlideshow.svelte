@@ -73,7 +73,7 @@
         width: calc(var(--content-width) + 10%);
         margin: 0 auto;
         position: relative;
-        border-top: 5px solid black;
+        border-top: 5px solid var(--main-color);
         margin-bottom: 150px;
         padding-bottom: 1em;
 
@@ -98,7 +98,7 @@
     }
 
     .btn {
-        color: var(--primary-button);
+        color: black;
     }
 
     /* .swiper-wrapper {

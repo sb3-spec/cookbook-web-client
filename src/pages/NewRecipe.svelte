@@ -367,7 +367,7 @@
     input {
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid var(--accent);
+        border-bottom: 1px solid var(--main-color);
         color: black;
         font-size: 16px;
         font-weight: 100;
