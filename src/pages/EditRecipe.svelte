@@ -5,6 +5,8 @@
     import { frontendHost } from "../utils/hosts";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+    // Recipe fields
+
     let firstStep = "";
     let firstIngredient = "";
     let title = "";
@@ -15,6 +17,10 @@
     
     let ingredients = [];
     let steps = [];
+
+    // Counter for steps and ingredients
+    let ingredientCount = 1;
+    let stepCount = 1;
 
     let auth = getAuth();
 
@@ -54,7 +60,7 @@
     async function handleSubmit() {
         let recipe = {
             "title": title,
-            "description": description,
+            "header": description,
             "cook_time": cookTime,
             "steps": steps,
             "ingredients": ingredients,
@@ -77,6 +83,18 @@
         })
     }
 
+    // Just like the create recipe page, this section 
+    // will either add a new and empty ingredient/step 
+    // to the recipe form. 
+    function newItem(e, type) {
+        let targetContainer;
+        if (type == "ingredient") {
+            targetContainer = document.querySelector('.ingredients-container');
+        } else if (type == "step") {
+            targetContainer = document.querySelector('.steps-container');
+        } else {return}
+    }
+
 </script>
 
 <div class="recipe-edit-outer">
@@ -88,52 +106,84 @@
         <textarea name="description" id="description" rows="6" bind:value={description}></textarea>
 
         <label for="cook-time">Cook-Time</label>
-        <input type="text" name="cook-time" bind:value={cookTime}>
+        <input type="text" name="cook-time" bind:value={cookTime} style="width: 40%;">
 
-        <div class="steps-container">
-            <h4>Steps</h4>
-            <ol class="steps-list">
-                {#each steps.map((value, index) => index) as idx}
-                    <li>
-                        <textarea name="step-1" id="step-1" rows="4" bind:value={steps[idx]}></textarea>
-                    </li>
-                {/each}
-            </ol>
+        <div class="instructions">
+            <div class="steps-container">
+                <div style="display: flex; position: relative;">
+                    <h4>Steps</h4>
+                    <button class="add-item">Add Step</button>
+                </div>
+                <ol class="steps-list">
+                    {#each steps.map((value, index) => index) as idx}
+                        <li>
+                            <textarea name={`step-${idx}`} id={`step-${idx}`} rows="3" bind:value={steps[idx]}></textarea>
+                        </li>
+                    {/each}
+                </ol>
+            </div>
+            <div class="ingredients-container">
+                <div style="display: flex; position: relative;">
+                    <h4>Ingredients</h4>
+                    <button class="add-item">Add Ingredient</button>
+                </div>
+                <ul>
+                    {#each ingredients.map((value, index) => index) as idx}
+                        <li>
+                            <textarea name={`ingr-${idx}`} id={`ingr-${idx}`} rows="3" bind:value={ingredients[idx]}></textarea>
+                        </li>
+                    {/each}
+                </ul>
+            </div>
         </div>
 
-        <div class="ingredients-container">
-            <h4>Ingredients</h4>
-            <ul>
-                {#each ingredients.map((value, index) => index) as idx}
-                    <li>
-                        <textarea name="ingr-1" id="" rows="3" bind:value={ingredients[idx]}></textarea>
-                    </li>
-                {/each}
-            </ul>
+        <div class="tags-and-image">
+            <div class="tags" style="margin-top: 20px;">
+                <label for="tags">Tags</label>
+                <input type="text" name="tags" placeholder="Easy-Dinner">
+            </div>
+            <div class="recipe-image">
+                <label for="image_url">Recipe Image</label>
+                <img src={image_url} alt={title}>
+                <input type="file" name="image_url" class="file-input">
+            </div>
         </div>
 
-        <label for="tags">Tags</label>
-        <input type="text" name="tags" placeholder="Easy-Dinner">
-
-        <label for="image_url">Recipe Image</label>
-        <img src={image_url} alt={title}>
-        <input type="file" name="image_url" class="file-input">
-
-        <button type="submit" class="submit" disabled={!(firstIngredient || firstStep || title || description)}>Submit</button>
+        <button type="submit" class="submit" disabled={!(firstIngredient || firstStep || title || description)}>Save Recipe</button>
     </form>
 </div>
 
 <style>
 
     .recipe-edit-outer {
-        padding-top: 30px;
+        padding: 30px 0;
     }
 
+    .tags {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #description {
+        margin-bottom: 20px;
+    }
+
+    .add-item {
+        position: absolute;
+        padding: 3px 10px;
+        height: 35px;
+        top: 20px;
+    }
+
+    .instructions {
+        display: flex;
+        flex-direction: column;
+    }
     form {
         box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
         display: flex;
         flex-direction: column;
-        max-width: 600px;
+        max-width: 80%;
         margin: 0 auto;
         text-align: left;
         background-color: var(--background);
@@ -144,8 +194,11 @@
     }
 
     textarea {
-        width: 100%;
+        width: 40%;
+        margin: 0;
     }
+
+    
 
     ul {
         list-style: none;
@@ -156,6 +209,10 @@
         padding: 0;
     }
 
+    ol li::marker {
+        font-size: 20px;
+    }
+
     button {
         border: none;
         font-weight: 400;
@@ -164,6 +221,7 @@
         right: 0;
         padding: .3em .5em;
         top: 5px;
+        right: 20%;
     }
 
     button:disabled {
@@ -179,6 +237,7 @@
         border: none;
         color: black;
         font-size: 16px;
+        width: 100%;
     }
 
     input {
@@ -191,7 +250,7 @@
         width: 100%;
     }
 
-    input, textarea {
+    input {
         margin-bottom: 15px;
     }
 
@@ -229,6 +288,9 @@
         font-size: 20px;
         color: white;
         background-color: var(--primary-button);
+        width: 100%;
+        right: 0;
+        
     }
 
     .submit:hover {
@@ -243,6 +305,47 @@
         font-size: 23px;
         margin-bottom: 5px;
         position: relative;
+    }
+
+    .recipe-image {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tags-and-image {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    @media (min-width: 1400px) {
+        .submit {
+            width: 30%;
+        }
+
+        li textarea {
+            width: 80%;
+        }
+
+        #description {
+            width: 40%;
+        }
+
+
+
+        .instructions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .recipe-image img {
+            max-width: 40%;
+        }
+
+        input { 
+            width: 40%;
+        }
+        
     }
 </style>
 
