@@ -6,5 +6,5 @@ const SiteState = Object.freeze({
 let frontendState = SiteState.PROD;
 let backendState = SiteState.PROD;
 
-export const frontendHost = frontendState === SiteState.DEV ? 'http://localhost:5173/' : 'https://digital-cookbook.netlify.app/';
+export const frontendHost = frontendState === SiteState.DEV ? 'http://localhost:5173/' : 'https://digital-parlsey.netlify.app/';
 export const backendHost = backendState === SiteState.DEV ? 'http://localhost:8080/' : 'https://cookbookapi-production.up.railway.app/';
