@@ -1,18 +1,21 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher, onMount } from "svelte";
-    import Swiper, { Navigation } from "swiper";
+    import Swiper from "swiper";
+    import { Navigation } from "swiper/modules";
     import 'swiper/css';
     import 'swiper/css/navigation';
 
     import RecipeWidget from "./RecipeWidget.svelte";
+    import { Recipe } from "../utils/customTypes";
 
     export let title = "";
     export let description = "";
-    export let recipes = [];
+    export let recipes: Recipe[] = [];
 
     const dispatch = createEventDispatcher();
 
     onMount(() => {
+        if (recipes.length == 0) {return}
         const swiper = new Swiper('.swiper-container', {
             modules: [Navigation],
             slidesPerView: 1,
@@ -37,21 +40,25 @@
 
 </script>
 
-
-
 <div class="swiper swiper-container">
     <h2>{title}</h2>
     <p>{description}</p>
+
+    {#if recipes.length === 0}
+        You have no Recipes saved currently. 
+        To add a Recipe, head over to <a href="#/new-recipe">New Recipe</a>
+    {:else}
+        <div class="swiper-wrapper">
+            {#each recipes as recipe}
+                <div class="swiper-slide">
+                    <RecipeWidget {recipe} on:confirmDelete={(e) => {dispatch("confirmDelete", {text: e.detail.text})}}/>
+                </div>
+            {/each}
+        </div>
+        <div class="swiper-button-prev btn"></div>
+        <div class="swiper-button-next btn"></div>
+    {/if}
     
-    <div class="swiper-wrapper">
-        {#each recipes as recipe}
-            <div class="swiper-slide">
-                <RecipeWidget {recipe} on:confirmDelete={(e) => {dispatch("confirmDelete", {text: e.detail.text})}}/>
-            </div>
-        {/each}
-    </div>
-    <div class="swiper-button-prev btn"></div>
-    <div class="swiper-button-next btn"></div>
    
 </div>
 

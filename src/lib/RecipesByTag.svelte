@@ -1,6 +1,6 @@
 <script>
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { getRecipesByTag } from "../api/recipeFunctions";
+    import { getRecipesByTag } from "../api/recipe
     import RecipeSlideshow from "./RecipeSlideshow.svelte";
     import { createEventDispatcher } from "svelte";
 

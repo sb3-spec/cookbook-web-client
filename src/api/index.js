@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getRecipes } from "./recipeFunctions";
+import { getRecipes } from "./recipe";
 import { backendHost } from "../utils/hosts";
 
 export const api = axios.create({

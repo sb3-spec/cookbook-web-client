@@ -1,10 +1,9 @@
-<script>
+<script lang="ts">
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { onMount } from "svelte";
   import Router from 'svelte-spa-router';
 
   import { app } from "./utils/firebase";
-  import { db } from "./utils/db";
   import Navbar from './lib/Navbar.svelte';
   import Dashboard from "./pages/Dashboard.svelte";
   import Login from "./pages/Login.svelte";
@@ -12,62 +11,60 @@
   import { api } from "./utils/RecipeApi";
   import Recipe from "./pages/Recipe.svelte";
   import { frontendHost } from "./utils/hosts";
-  import Test from "./pages/Test.svelte";
-    import EditRecipe from "./pages/EditRecipe.svelte";
+  import EditRecipe from "./pages/EditRecipe.svelte";
+  import { UserStore } from "./stores/UserStore"
+  import SignUp from "./pages/SignUp.svelte";
+  import { createChef, getChef } from "./api/chef";
+  import type { ParsleyAPIResponse } from "./utils/customTypes";
+  import { YourRecipesStore } from "./stores/RecipeListStore";
 
   // VARS
 
-  $: authLoading = true;
+  let errorCode;
+  let errorMessage;
+  let currentUser;
+
+  const unsubscribe = UserStore.subscribe(data => {
+    if (data != null) {
+      currentUser = data;
+    }
+  });
+   
 
   const routes = {
     '/': Dashboard,
     '/login': Login,
     '/new-recipe': NewRecipe,
+    '/sign-up': SignUp,
     '/edit': EditRecipe,
     '/:recipeTitle': Recipe,
   }
 
-  let root = document.documentElement;                                                                                                                                                                                              
+  let auth = getAuth(app);
 
-  
-
-
-  
-
-  onMount(() => {
-
-    
-
-    let auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        user = user;
-        root.style.setProperty("--scroll-type", "scroll");
-
-        // sync users from firebase to my backend
-        // attemps to create a new user on the backend with every auth change, returns an error if the user exists
-
-        if (!localStorage.getItem("user")) {
-          api.post("chefs", JSON.stringify({'username': user.displayName, 'firebase_id': user.uid})).then(res => {
-            localStorage.setItem("user", JSON.stringify(res.data));
-        
-            console.log("New User successfully created on backend");
-          }).catch(err => {
-            console.log("User already exists on backend");
-            // if (err.status === 400) {
-              
-            // }
-          }).finally(() => {
-            localStorage.setItem("user", "exists");
-          })
-        }
+  onAuthStateChanged(auth, async (user) => {
+    let response: ParsleyAPIResponse;
+    if (user) {
+      // user is signed in
+      response = await getChef();
+      if (response.status === 200) {
+        sessionStorage.setItem("uid", user.uid);
+        UserStore.set(response.chef);
       } else {
-        root.style.setProperty("--scroll-type", "hidden");
-        window.location.replace(frontendHost + "#/login");
+        response = await createChef({"username": user.displayName, "firebase_id": user.uid, "custom_tags": []});
+
+        if (response.status == 200) {
+          sessionStorage.setItem("uid", response.chef.firebase_id)
+        }
       }
+    } else {
+      // user is signed out
+      YourRecipesStore.set([]);
+      window.location.replace(frontendHost + "#/login");
+    }
     })
-  });
+
+
 </script>
 
 <main>
@@ -77,8 +74,29 @@
 
 <style>
   main {
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
-    overflow-y: var(--scroll-type)
   }
+
+  main::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  main::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  main::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  main::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+   
+  
 </style>
