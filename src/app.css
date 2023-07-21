@@ -4,35 +4,39 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --gradient-main: linear-gradient(to bottom left, rgb(255, 130, 130), #d64242);
   --content-width: 1200px;
 
-  --accent-color-main: #189AB4;
-
-  --text: white;
-  --background: rgb(231, 231, 231);
-  --primary-button: #df321b;
-  --secondary-button: #f7f9fd;
-  --accent: #df321b;
-
-  --scroll-type: 'hidden';
-
+  --scroll-type: "hidden";
 
   /* PARSLEY REBRAND */
+  --background: rgb(255, 255, 255);
   --main-color: #03c04a;
+  --content-font: sans-serif;
+}
+
+form {
+  border-radius: 5px;
+  background-color: var(--background);
+}
+
+textarea {
+  font-family: var(--content-font);
+  background-color: rgb(219, 219, 219);
+  color: white;
+  padding: 10px;
+  resize: none;
+  font-size: 18px !important;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--main-color);
   text-decoration: inherit;
 }
 
@@ -42,14 +46,19 @@ a:hover {
 
 html {
   height: 100%;
+  width: 100%;
+  scrollbar-color: transparent auto;
 }
+
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
-  height: 100%;
+  width: 100%;
   background-color: var(--background);
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 
 h1 {
@@ -80,8 +89,6 @@ button {
 button:hover {
   border-color: var(--main-color);
 }
-
-
 
 .logo-container img {
   height: 35px;
