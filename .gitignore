@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 
-src/utils/hosts.js
+
 
 # Editor directories and files
 .vscode/*
@@ -27,3 +27,4 @@ src/utils/hosts.js
 
 # Environment variables
 .env
+src/utils/hosts.js
