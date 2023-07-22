@@ -161,7 +161,7 @@
     border-radius: 5px 5px 0 0;
     object-fit: cover;
     width: 100%;
-    max-height: 300px;
+    height: 300px;
   }
 
   @media (max-width: 1000px) {

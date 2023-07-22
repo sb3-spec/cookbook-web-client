@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { CurrentRecipeStore } from "../stores/CurrentRecipe";
   import { Recipe } from "../utils/customTypes";
+  import { YourRecipesStore } from "../stores/RecipeListStore";
 
   $: showNav = false;
   $: logoutModalActive = false;
@@ -20,7 +21,7 @@
     auth
       .signOut()
       .then(() => {
-        console.log("User successfully logged out");
+        YourRecipesStore.set([]);
       })
       .catch((err) => {
         alert(err.message);
@@ -119,7 +120,11 @@
   <div class="logout-modal">
     <div class="logout-wrapper">
       <h3>Confirm logout?</h3>
-      <button on:click={handleLogout}>Yes</button>
+      <button
+        on:click={async () => {
+          await handleLogout();
+        }}>Yes</button
+      >
       <button
         on:click|preventDefault={() => {
           logoutModalActive = false;

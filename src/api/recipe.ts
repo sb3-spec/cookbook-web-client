@@ -7,14 +7,13 @@ import { frontendHost } from "../utils/hosts";
 import { uploadImage } from "../utils/uploadImage";
 import type { AxiosResponse } from "axios";
 import { ParsleyAPIResponse } from "../utils/customTypes";
-import { UserStore } from "../stores/UserStore";
 
 let user;
 
 function getAuthConfig() {
   let authConfig = {
     headers: {
-      "X-AUTH-TOKEN": sessionStorage.getItem("uid") || "",
+      "X-AUTH-TOKEN": getAuth().currentUser.uid || "",
     },
   };
 

@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { YourRecipesStore } from "../stores/RecipeListStore";
   import { deleteRecipe, getRecipes } from "../api/recipe";
   import RecipeSlideshow from "../lib/RecipeSlideshow.svelte";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import Loading from "../lib/Loading.svelte";
   import { Recipe } from "../utils/customTypes";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { app } from "../utils/firebase";
 
   let recipes = [];
 
@@ -14,20 +15,23 @@
   let targetDeleteId;
   let loading = true;
 
-  YourRecipesStore.subscribe((data) => {
-    recipes = data;
-    console.log(recipes);
+  let unsubscribe = YourRecipesStore.subscribe((data) => {
+    if (data.length !== 0) {
+      recipes = data;
+    }
   });
 
-  onMount(async () => {
-    let result = await getRecipes();
+  onAuthStateChanged(getAuth(app), async (user) => {
+    if (user) {
+      let result = await getRecipes();
 
-    if (result.status === 200) {
-      YourRecipesStore.set(result.recipes.map((data) => new Recipe(data)));
-    } else {
-      console.log(result.status, result.message);
+      if (result.status === 200) {
+        YourRecipesStore.set(result.recipes.map((data) => new Recipe(data)));
+      } else {
+        console.log(result.status, result.message);
+      }
+      loading = false;
     }
-    loading = false;
   });
 
   function forward(event) {
@@ -45,7 +49,12 @@
         })
       );
     }
+    confirmDelete = false;
   }
+
+  onDestroy(() => {
+    unsubscribe();
+  });
 </script>
 
 <div class="dashboard-outer">

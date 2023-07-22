@@ -201,14 +201,21 @@
   }
 
   .delete {
-    color: red;
+    background-color: red;
+    color: white;
+    border: none;
+    transition: all 200ms ease;
   }
 
-  .delete:hover {
+  .edit {
+    border: none;
+    background-color: var(--main-color);
     color: white;
-    background-color: red;
-    border: 2px solid black;
-    transition: all 200ms ease;
+  }
+
+  .edit:hover,
+  .delete:hover {
+    transform: translateY(-1px);
   }
   .recipe-header-wrapper {
     display: flex;
@@ -342,7 +349,7 @@
 
     .recipe-header-wrapper {
       flex-direction: column;
-      height: 350px;
+      height: auto;
     }
 
     .recipe-header-wrapper img {
@@ -355,7 +362,7 @@
       border-bottom: 5px solid var(--accent);
       position: relative;
       height: 30px;
-      padding-top: 2em;
+      padding-top: 1.5em;
       width: 100%;
     }
 
@@ -367,7 +374,7 @@
 
     .recipe-info-wrapper {
       flex-direction: column;
-      padding-top: 7em;
+      padding-top: 2em;
       padding-bottom: 0;
     }
 

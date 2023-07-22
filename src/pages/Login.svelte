@@ -19,7 +19,9 @@
 <div class="login-outer">
   <div class="logo-container">
     <img src="./assets/parsley.png" alt="Cookbook icon" />
-    <h2 style="color: var(--main-color);font-size: 60px;">Parsley</h2>
+    <h2 style="color: var(--main-color);font-size: 60px; margin: 0;">
+      Parsley
+    </h2>
   </div>
   <div id="firebase-auth-container">
     <h3 style="font-weight: 400;font-size: 30px;margin: 0; margin-bottom: 1em;">
@@ -131,7 +133,7 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     display: flex;
     flex-direction: column;
-    padding-top: 4em;
+    padding-top: 1em;
   }
 
   .input-email-container {
@@ -222,8 +224,8 @@
     white-space: nowrap;
     margin: 0 auto;
     padding: 0 10px;
-    padding-right: 40px;
     gap: 10px;
+    padding-bottom: 1em;
   }
 
   .logo-container img {
@@ -279,7 +281,7 @@
     color: white;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     h2 {
       font-size: 40px;
     }
@@ -289,13 +291,14 @@
     }
 
     #firebase-auth-container {
-      width: 80%;
+      width: 100%;
       margin: 0 auto;
+      border-radius: 0;
       background-color: var(--text);
       backdrop-filter: blur(20px);
-      border-radius: 15px;
       padding-bottom: 1em;
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      padding-top: 0;
+      box-shadow: none;
     }
   }
 </style>
