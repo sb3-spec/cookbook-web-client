@@ -102,9 +102,13 @@
     position: absolute;
     left: 4px;
     top: 4px;
-    background-color: #f7f7f780;
     backdrop-filter: blur(20px);
     transition: all 200ms ease;
+  }
+
+  .delete-recipe,
+  .edit-recipe-btn {
+    background-color: var(--button-bg);
   }
 
   .edit-recipe-btn {
@@ -114,7 +118,6 @@
     right: 4px;
     top: 4px;
     border: none;
-    background-color: #f7f7f780;
     backdrop-filter: blur(20px);
     transition: all 200ms ease;
   }
@@ -133,13 +136,13 @@
   }
 
   .recipe-widget-outer {
-    background-color: white;
+    background-color: var(--recipe-widget-bg);
     border-radius: 5px;
     width: 300px;
     transition: all 200ms ease;
     position: relative;
     cursor: pointer;
-    border: 1px solid #bdbdbd;
+    border: 1px solid var(--contrast-border);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 

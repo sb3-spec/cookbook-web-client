@@ -39,7 +39,7 @@
 </script>
 
 <div class="swiper swiper-container">
-  <h2>{title}</h2>
+  <h2 style="color: var(--text-color);">{title}</h2>
   <p>{description}</p>
 
   {#if recipes.length === 0}
