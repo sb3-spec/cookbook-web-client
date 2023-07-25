@@ -13,6 +13,10 @@ textarea {
   color: var(--text-color);
 }
 
+input {
+  background-color: transparent !important;
+}
+
 a {
   font-weight: 500;
   color: var(--main-color);
@@ -113,10 +117,10 @@ button:hover {
     --navbar-color: rgb(255, 255, 255);
     --recipe-widget-bg: white;
     --button-bg: #e7e7e780;
-    --login-bg: rgb(160, 160, 160);
+    --login-bg: rgb(255, 255, 255);
     --contrast-border: rgb(218, 218, 218);
     --form-bg: rgb(218, 218, 218);
-    --login-contrast-border: rgb(107, 107, 107);
+    --login-contrast-border: rgb(129, 129, 129);
   }
 }
 
