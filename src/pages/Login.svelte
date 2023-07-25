@@ -173,12 +173,18 @@
 
   .email-login input:focus-visible {
     outline: none;
+    background-color: transparent !important;
+  }
+
+  .email-login input:autofill,
+  .email-login input:-webkit-autofill {
+    background-color: transparent !important;
   }
 
   #email,
   #password {
     height: 50px;
-    border: 2px solid var(--contrast-border);
+    border: 2px solid var(--login-contrast-border);
     border-radius: 3px;
     display: flex;
     margin: 0 auto;

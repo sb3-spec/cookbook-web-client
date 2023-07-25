@@ -9,7 +9,7 @@ export function setLoginSpanFocusStyles() {
     return;
   }
 
-  passwordInput.addEventListener("focus", () => {
+  passwordInput.addEventListener("click", () => {
     if (passwordSpan == null) {
       return;
     }
@@ -23,7 +23,7 @@ export function setLoginSpanFocusStyles() {
     passwordSpan.style.border = "2px solid var(--login-contrast-border)";
   });
 
-  input.addEventListener("focus", () => {
+  input.addEventListener("click", () => {
     if (span == null) {
       return;
     }
