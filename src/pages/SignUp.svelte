@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { createChef } from "../api/chef";
   import { handleCreateUserWithEmailAndPassword } from "../auth";
+  import { setLoginSpanFocusStyles } from "./utils";
 
   let password = "";
   let email = "";
@@ -27,6 +29,10 @@
     }
 
     sessionStorage.setItem("chef", JSON.stringify(createChefResponse.chef));
+
+    onMount(() => {
+      setLoginSpanFocusStyles();
+    });
   }
 </script>
 
@@ -194,7 +200,7 @@
   #email,
   #password {
     height: 50px;
-    border: 2px solid rgb(206, 206, 206);
+    border: 2px solid var(--login-contrast-border);
     border-radius: 3px;
     display: flex;
     margin: 0 auto;

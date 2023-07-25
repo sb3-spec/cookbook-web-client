@@ -251,7 +251,6 @@
     width: var(--content-width);
     padding-top: 10em;
     margin: 0 auto;
-    color: black;
     padding-bottom: 30px;
   }
 

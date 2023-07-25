@@ -120,16 +120,18 @@
   <div class="logout-modal">
     <div class="logout-wrapper">
       <h3>Confirm logout?</h3>
-      <button
-        on:click={async () => {
-          await handleLogout();
-        }}>Yes</button
-      >
-      <button
-        on:click|preventDefault={() => {
-          logoutModalActive = false;
-        }}>No</button
-      >
+      <div style="display: flex; justify-content: center; gap: 20px;">
+        <button
+          on:click={async () => {
+            await handleLogout();
+          }}>Yes</button
+        >
+        <button
+          on:click|preventDefault={() => {
+            logoutModalActive = false;
+          }}>No</button
+        >
+      </div>
     </div>
   </div>
 {/if}
@@ -178,7 +180,7 @@
     white-space: nowrap;
     margin: 0 auto;
     position: absolute;
-    border-right: 1px solid #bdbdbd;
+    border-right: 1px solid var(--contrast-border);
     padding: 0 10px;
     padding-right: 40px;
     gap: 10px;
@@ -198,8 +200,7 @@
     position: relative;
   }
   .navbar-outer {
-    background-color: white;
-    border-bottom: 1px solid #bdbdbd;
+    border-bottom: 1px solid var(--contrast-border);
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -209,8 +210,10 @@
     left: 0;
     right: 0;
     top: 0;
-    z-index: 10;
+    z-index: 15;
     padding-left: 2em;
+    background-color: var(--navbar-color);
+    color: var(--text-color);
   }
 
   nav {
@@ -229,24 +232,34 @@
 
   nav a {
     font-size: 15px;
-    color: black;
     font-weight: 600;
     margin: 0;
-    /* position: relative;
-        bottom: -20px; */
     vertical-align: middle;
     line-height: 60px;
     transition: all 100ms ease;
+    color: var(--text-color);
   }
 
   .logout {
     padding: 0px;
-    color: white;
+    color: var(--text-color);
     background-color: transparent;
     border: none;
     transition: all ease 100ms;
     font-weight: 600;
     font-size: 15px;
+    border-radius: 0;
+  }
+
+  .logout-modal button {
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+  }
+
+  .logout-modal button:hover {
+    background-color: white;
+    color: black;
   }
 
   .logout p:hover {
@@ -256,7 +269,6 @@
   .logout:hover {
     border: none;
     border-bottom: 5px solid var(--main-color);
-    border-radius: 0;
   }
 
   p {
@@ -264,7 +276,6 @@
     line-height: 60px;
     vertical-align: middle;
     transition: all 100ms ease;
-    color: black;
   }
 
   p:hover {

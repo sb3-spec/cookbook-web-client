@@ -126,7 +126,7 @@
   #firebase-auth-container {
     width: 400px;
     margin: 0 auto;
-    background-color: var(--text);
+    background-color: var(--login-bg);
     backdrop-filter: blur(20px);
     border-radius: 4px;
     padding-bottom: 1em;
@@ -178,7 +178,7 @@
   #email,
   #password {
     height: 50px;
-    border: 2px solid rgb(206, 206, 206);
+    border: 2px solid var(--contrast-border);
     border-radius: 3px;
     display: flex;
     margin: 0 auto;

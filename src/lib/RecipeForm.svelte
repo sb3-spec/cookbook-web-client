@@ -125,7 +125,7 @@
     </div>
 
     <div class="instructions">
-      <div class="steps-container">
+      <div class="steps-container" style="padding-top: 1em;">
         <div
           style="display: flex; position: relative; justify-content: space-between;"
         >
@@ -191,7 +191,7 @@
       </div>
       <div class="ingredients-container">
         <div
-          style="display: flex; position: relative; justify-content: space-between; padding-top: 2em;"
+          style="display: flex; position: relative; justify-content: space-between;padding-top: 1em;"
         >
           <h4 style="margin: 0;">Ingredients</h4>
           <button
@@ -340,10 +340,11 @@
     margin: 0 auto;
     margin-top: 20px;
     text-align: left;
-    border: 1px solid #bdbdbd;
+    border: none;
     padding: 2em 3em 3em 3em;
     min-height: 400px;
     position: relative;
+    background-color: var(--form-bg);
   }
 
   textarea {
@@ -385,11 +386,10 @@
 
   textarea {
     border: none;
-    color: black;
     font-size: 16px;
     width: 100%;
-    background-color: var(--background);
-    border: 1px solid var(--main-color);
+    background-color: var(--textarea-bg);
+    border: none;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   }
@@ -397,8 +397,7 @@
   input {
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid var(--main-color);
-    color: black;
+    border-bottom: 2px solid var(--main-color);
     font-size: 16px;
     font-weight: 100;
     width: 100%;
@@ -409,7 +408,6 @@
   }
 
   label {
-    color: black;
     font-weight: 400;
     font-size: 23px;
     margin-bottom: 5px;
@@ -451,7 +449,7 @@
   }
 
   .submit:hover {
-    transform: translateY(-1px);
+    backdrop-filter: brightness(50%);
   }
 
   .submit:disabled:hover {
@@ -459,10 +457,8 @@
   }
 
   h4 {
-    color: black;
     font-weight: 400;
     font-size: 23px;
-    margin-bottom: 5px;
     position: relative;
   }
 
