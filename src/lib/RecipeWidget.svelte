@@ -19,6 +19,7 @@
 
   function handleClick() {
     CurrentRecipeStore.set(recipe);
+    sessionStorage.setItem("currentRecipe", JSON.stringify(recipe));
   }
 
   function handleEdit() {

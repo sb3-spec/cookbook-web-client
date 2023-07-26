@@ -48,7 +48,12 @@
 </script>
 
 <div class="recipe-form-outer">
-  <form on:submit|preventDefault={handleSubmit}>
+  <form
+    on:change={() => {
+      sessionStorage.setItem("recipeInProgress", JSON.stringify(recipe));
+    }}
+    on:submit|preventDefault={handleSubmit}
+  >
     <div class="edit-recipe-header">
       <div
         style="display: flex; flex-direction: column;"

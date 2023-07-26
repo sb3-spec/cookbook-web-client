@@ -4,19 +4,9 @@
   import RecipeForm from "../lib/RecipeForm.svelte";
   import { Recipe } from "../utils/customTypes";
 
-  let recipe: Recipe;
-
-  let unsubscribe = CurrentRecipeStore.subscribe((data) => {
-    if (data == null) {
-      recipe = new Recipe();
-    } else {
-      recipe = data;
-    }
-  });
-
-  onDestroy(() => {
-    unsubscribe();
-  });
+  let recipe: Recipe = new Recipe(
+    JSON.parse(sessionStorage.getItem("currentRecipe"))
+  );
 </script>
 
 <div class="recipe-edit-outer">

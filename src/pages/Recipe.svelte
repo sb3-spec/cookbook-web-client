@@ -5,22 +5,12 @@
   import { api } from "../utils/RecipeApi";
   import { getAuth } from "firebase/auth";
   import TagChip from "../lib/TagChip.svelte";
-  import type { Recipe } from "../utils/customTypes";
+  import { Recipe } from "../utils/customTypes";
 
-  let recipe: Recipe;
+  let recipe: Recipe = new Recipe(
+    JSON.parse(sessionStorage.getItem("currentRecipe"))
+  );
   let confirmDelete = false;
-
-  const unsubscribe = CurrentRecipeStore.subscribe((data) => {
-    if (Object.keys(data).length === 0) {
-      recipe = JSON.parse(sessionStorage.getItem("currentRecipe"));
-    } else {
-      recipe = data;
-    }
-  });
-
-  onDestroy(() => {
-    unsubscribe();
-  });
 
   function handleEdit() {
     window.location.href = frontendHost + `#/edit`;

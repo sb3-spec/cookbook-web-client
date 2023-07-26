@@ -62,9 +62,12 @@
       on:click={() => {
         window.location.href = frontendHost + "#/";
         currentPage = "/#/";
+        sessionStorage.removeItem("recipeInProgress");
       }}
       on:keypress={() => {
-        window.location.replace("/#/");
+        window.location.href = frontendHost + "#/";
+        currentPage = "/#/";
+        sessionStorage.removeItem("recipeInProgress");
       }}
     >
       <span class="img-helper" /><img
@@ -75,11 +78,16 @@
     </div>
     <nav id="main-nav">
       <!-- <a href="/#/recipes">Your Recipes</a> -->
-      <a href="/#/">Dashboard</a>
+      <a
+        on:click|preventDefault={() => {
+          sessionStorage.removeItem("recipeInProgress");
+        }}
+        href="/#/">Dashboard</a
+      >
       <!-- <a href="/#/explore">Explore</a> -->
       <a
         on:click={() => {
-          CurrentRecipeStore.set(new Recipe());
+          sessionStorage.removeItem("recipeInProgress");
         }}
         href="/#/new-recipe"
         id="new-recipe">New Recipe</a
@@ -107,7 +115,13 @@
 
   <nav class="mobile-nav">
     <div class="mobile-nav-links">
-      <a class="mobile-nav-item" href="/"
+      <a
+        on:click={() => {
+          toggleMobileNav();
+          sessionStorage.removeItem("recipeInProgress");
+        }}
+        class="mobile-nav-item"
+        href="/"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="22"
@@ -122,7 +136,14 @@
           /></svg
         >Your Recipes</a
       >
-      <a on:click={toggleMobileNav} class="mobile-nav-item" href="#/new-recipe">
+      <a
+        on:click={() => {
+          toggleMobileNav();
+          sessionStorage.removeItem("recipeInProgress");
+        }}
+        class="mobile-nav-item"
+        href="#/new-recipe"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="22"
@@ -460,7 +481,7 @@
       width: 80%;
       margin-top: 10px;
       background-color: button-primary;
-      border: 1px solid black;
+      border: 1px solid white;
     }
   }
 </style>
