@@ -506,8 +506,8 @@
       width: 100%;
       border-radius: 0%;
       border: none;
-      padding: 0 0px;
-      padding-bottom: 4em;
+      padding: 0 1.5em;
+      padding-bottom: 1em;
       margin: 0;
       box-shadow: none;
       margin: 0 auto;

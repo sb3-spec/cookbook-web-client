@@ -9,12 +9,24 @@
   $: showNav = false;
   $: logoutModalActive = false;
   let userName = "";
+  let mobileNavActive = false;
 
   $: currentPage = window.location.href;
 
   onMount(() => {
     currentPage = window.location.href;
   });
+
+  function toggleMobileNav() {
+    mobileNavActive = !mobileNavActive;
+
+    let el = document.querySelector(".mobile-nav");
+    if (mobileNavActive) {
+      el.setAttribute("style", "transform: translateX(0);");
+    } else {
+      el.setAttribute("style", "transform: translateX(100%);");
+    }
+  }
 
   let auth = getAuth();
   async function handleLogout() {
@@ -61,7 +73,7 @@
       />
       <h2>Parsley</h2>
     </div>
-    <nav>
+    <nav id="main-nav">
       <!-- <a href="/#/recipes">Your Recipes</a> -->
       <a href="/#/">Dashboard</a>
       <!-- <a href="/#/explore">Explore</a> -->
@@ -72,47 +84,99 @@
         href="/#/new-recipe"
         id="new-recipe">New Recipe</a
       >
-      <button
-        class="logout"
-        on:click|preventDefault={() => {
-          logoutModalActive = true;
-        }}
-      >
+      <button class="logout" on:click|preventDefault={toggleMobileNav}>
         <p>Sign out</p>
-        <img src="./assets/nav-icons/logout.png" alt="logout icon" />
+        <svg
+          id="mobile-hamburger"
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 21 21"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4.5 6.5h12m-12.002 4h11.997M4.5 14.5h11.995"
+          />
+        </svg>
       </button>
     </nav>
   </div>
 
   <nav class="mobile-nav">
-    <a
-      href="/#/"
-      on:click={() => {
-        currentPage = "/#/";
-      }}
-    >
-      {#if currentPage === frontendHost || currentPage.endsWith("/")}
-        <img src={"./assets/nav-icons/house.png"} alt="Home symbol" />
-      {:else}
-        <img src={"./assets/nav-icons/house_inactive.png"} alt="Home symbol" />
-      {/if}
-    </a>
-    <a
-      href="/#/new-recipe"
-      on:click={() => {
-        currentPage = "new-recipe";
-        CurrentRecipeStore.set(new Recipe());
-      }}
-    >
-      {#if currentPage.endsWith("new-recipe")}
-        <img src="./assets/nav-icons/tab.png" alt="New Recipe Symbol" />
-      {:else}
-        <img
-          src="./assets/nav-icons/tab_inactive.png"
-          alt="New Recipe Symbol"
-        />
-      {/if}
-    </a>
+    <div class="mobile-nav-links">
+      <a class="mobile-nav-item" href="/"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 21 21"
+          ><path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.5 3.5h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2zm1 14v-14"
+          /></svg
+        >Your Recipes</a
+      >
+      <a on:click={toggleMobileNav} class="mobile-nav-item" href="#/new-recipe">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 21 21"
+        >
+          <g
+            fill="none"
+            fill-rule="evenodd"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path
+              d="M10 4.5H5.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V11"
+            />
+            <path
+              d="M17.5 3.467a1.462 1.462 0 0 1-.017 2.05L10.5 12.5l-3 1l1-3l6.987-7.046a1.409 1.409 0 0 1 1.885-.104zm-2 2.033l.953 1"
+            />
+          </g>
+        </svg>New Recipe</a
+      >
+      <span
+        class="mobile-nav-item"
+        role="button"
+        tabindex="0"
+        on:click|preventDefault={() => {
+          toggleMobileNav();
+          logoutModalActive = true;
+        }}
+        on:keydown|preventDefault={() => {
+          toggleMobileNav();
+          logoutModalActive = true;
+        }}
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 21 21"
+          ><g fill="none" fill-rule="evenodd" transform="translate(4 3)"
+            ><path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.5.5h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2z"
+            /><path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m10.202 14.5l-3.645-1.948A2 2 0 0 1 5.5 10.788V4.212a2 2 0 0 1 1.057-1.764L10.202.5"
+            /><circle cx="7.5" cy="7.5" r="1" fill="currentColor" /></g
+          ></svg
+        >Sign Out</span
+      >
+    </div>
   </nav>
 {/if}
 
@@ -137,6 +201,9 @@
 {/if}
 
 <style>
+  #mobile-hamburger {
+    display: none;
+  }
   .logout-modal {
     position: absolute;
     margin: 0 auto;
@@ -226,11 +293,7 @@
     right: 0;
   }
 
-  button img {
-    display: none;
-  }
-
-  nav a {
+  #main-nav a {
     font-size: 15px;
     font-weight: 600;
     margin: 0;
@@ -264,11 +327,6 @@
 
   .logout p:hover {
     border-bottom: none;
-  }
-
-  .logout:hover {
-    border: none;
-    border-bottom: 5px solid var(--main-color);
   }
 
   p {
@@ -309,38 +367,60 @@
       left: 0;
     }
 
+    #mobile-hamburger {
+      display: block;
+    }
+
     .mobile-nav {
       display: flex;
-      gap: 80px;
-      justify-content: center;
+      z-index: 20;
       position: fixed;
-      bottom: 0;
-      left: 0;
-      height: 60px;
-      background-color: rgba(56, 56, 56, 0.8);
-      z-index: 14;
+      right: 0;
+      top: 60px;
+      height: 100vh;
+      background-color: var(--mobile-nav-bg);
       backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(56, 56, 56, 0.2);
-      width: 100%;
+      border: 1px solid rgba(56, 56, 56, 0.2);
+      border-right: none;
+      width: 175px;
       box-sizing: border-box;
+      padding: 0;
+      transition: all 300ms ease;
+      transform: translateX(100%);
     }
 
-    .mobile-nav a {
-      display: inline-block;
-      color: white;
-      line-height: 60px;
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
     }
 
-    nav a {
+    .mobile-nav-item {
+      height: max-content;
+      width: 100%;
+      color: var(--text-color);
+      width: 100%;
+      padding: 10px 10px;
+      box-sizing: border-box;
+      border-radius: 3px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .mobile-nav-item svg {
+      position: absolute;
+      left: 10px;
+    }
+
+    .mobile-nav-item:active {
+      backdrop-filter: brightness(80%);
+    }
+
+    #main-nav a {
       line-height: 100%;
       vertical-align: middle;
       display: none;
-    }
-
-    .mobile-nav a img {
-      width: 28px;
-      height: 28px;
-      vertical-align: middle;
     }
 
     /* nav {
@@ -348,12 +428,6 @@
             right: 10px;
             position: absolute;
         } */
-
-    button img {
-      display: flex;
-      width: 20px;
-      height: 20px;
-    }
 
     button p {
       display: none;

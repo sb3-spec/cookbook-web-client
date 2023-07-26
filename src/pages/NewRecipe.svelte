@@ -130,6 +130,9 @@
     outline: none;
   }
 
-  @media (min-width: 1400px) {
+  @media (max-width: 1000px) {
+    .recipe-edit-outer {
+      padding-bottom: 0;
+    }
   }
 </style>
