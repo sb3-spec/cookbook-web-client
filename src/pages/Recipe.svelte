@@ -249,7 +249,7 @@
 
   .recipe-outer {
     width: var(--content-width);
-    padding-top: 10em;
+    padding-top: 6em;
     margin: 0 auto;
     padding-bottom: 30px;
   }
