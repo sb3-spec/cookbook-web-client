@@ -16,13 +16,11 @@
   let loading = true;
 
   let unsubscribe = YourRecipesStore.subscribe((data) => {
-    if (data.length !== 0) {
-      recipes = data;
-    }
+    recipes = data;
   });
 
   onAuthStateChanged(getAuth(app), async (user) => {
-    if (user) {
+    if (user && recipes.length === 0) {
       let result = await getRecipes();
 
       if (result.status === 200) {
@@ -30,8 +28,8 @@
       } else {
         console.log(result.status, result.message);
       }
-      loading = false;
     }
+    loading = false;
   });
 
   function forward(event) {

@@ -2,19 +2,13 @@
   import { api } from "../utils/RecipeApi";
   import RecipeForm from "../lib/RecipeForm.svelte";
   import { Recipe } from "../utils/customTypes";
-  import { CurrentRecipeStore } from "../stores/CurrentRecipe";
-  import { onDestroy } from "svelte";
 
-  let recipe: Recipe = new Recipe();
+  let recipe: Recipe = new Recipe(
+    JSON.parse(sessionStorage.getItem("recipeInProgress"))
+  );
 
   let scrapeUrl = "";
   let scrapeModal = true;
-
-  let unsubscribe = CurrentRecipeStore.subscribe((data) => {
-    if (data != null) {
-      recipe = data;
-    }
-  });
 
   async function tryScrapeRecipe() {
     api
@@ -30,10 +24,6 @@
         console.log(err);
       });
   }
-
-  onDestroy(() => {
-    unsubscribe();
-  });
 </script>
 
 <div class="recipe-edit-outer">
