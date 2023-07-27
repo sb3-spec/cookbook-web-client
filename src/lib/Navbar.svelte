@@ -22,9 +22,9 @@
 
     let el = document.querySelector(".mobile-nav");
     if (mobileNavActive) {
-      el.setAttribute("style", "transform: translateX(0);");
+      el.classList.remove("mobile-nav-inactive");
     } else {
-      el.setAttribute("style", "transform: translateX(100%);");
+      el.classList.add("mobile-nav-inactive");
     }
   }
 
@@ -113,7 +113,7 @@
     </nav>
   </div>
 
-  <nav class="mobile-nav">
+  <nav class="mobile-nav mobile-nav-inactive">
     <div class="mobile-nav-links">
       <a
         on:click={() => {
@@ -235,10 +235,6 @@
     background-color: rgba(0 0 0 / 0.8);
   }
 
-  .mobile-nav {
-    display: none;
-  }
-
   .logout-modal h3 {
     color: white;
     font-weight: 300;
@@ -320,8 +316,12 @@
     margin: 0;
     vertical-align: middle;
     line-height: 60px;
-    transition: all 100ms ease;
     color: var(--text-color);
+  }
+
+  #main-nav button,
+  #main-nav a {
+    transition: all 100ms ease;
   }
 
   .logout {
@@ -365,8 +365,16 @@
     outline: none;
   }
 
+  .mobile-nav-inactive {
+    transform: translateX(100%) !important;
+  }
+
   @media (min-width: 1001px) {
     a:hover {
+      border-bottom: 5px solid var(--main-color);
+    }
+
+    #main-nav button:hover {
       border-bottom: 5px solid var(--main-color);
     }
   }
@@ -403,11 +411,11 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(56, 56, 56, 0.2);
       border-right: none;
-      width: 175px;
+      width: 225px;
       box-sizing: border-box;
       padding: 0;
       transition: all 300ms ease;
-      transform: translateX(100%);
+      transform: translateX(0%);
     }
 
     .mobile-nav-links {
