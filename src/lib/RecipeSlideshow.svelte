@@ -67,6 +67,8 @@
 <style>
   .swiper-wrapper {
     padding-bottom: 2em;
+    display: flex;
+    justify-content: center;
   }
 
   .swiper-button-prev {

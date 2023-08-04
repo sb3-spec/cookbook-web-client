@@ -92,10 +92,21 @@
         href="/#/new-recipe"
         id="new-recipe">New Recipe</a
       >
-      <button class="logout" on:click|preventDefault={toggleMobileNav}>
+      <button
+        class="logout"
+        on:click|preventDefault={() => {
+          logoutModalActive = true;
+        }}
+      >
         <p>Sign out</p>
+      </button>
+
+      <button
+        id="mobile-hamburger"
+        class="logout"
+        on:click|preventDefault={toggleMobileNav}
+      >
         <svg
-          id="mobile-hamburger"
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
