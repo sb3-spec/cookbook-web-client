@@ -220,6 +220,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    padding-top: 4em;
   }
 
   .logo-container {
