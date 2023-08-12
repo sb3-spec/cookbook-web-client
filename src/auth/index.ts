@@ -35,7 +35,6 @@ export async function handleGoogleAuth(): Promise<AuthResponse> {
     const token = credential.accessToken;
 
     // The signed-in user info.
-    UserStore.set(result.user);
     response.setUser(result.user);
     // IdP data available using getAdditionalUserInfo(result)
     // ...
@@ -75,7 +74,6 @@ export async function handleCreateUserWithEmailAndPassword(
     response.setErrorInformation(e);
     return response;
   }
-  UserStore.set(result.user);
   response.setUser(result.user);
   window.location.href = frontendHost;
 
@@ -92,7 +90,6 @@ export async function handleLoginWithEmailAndPassword(
 
   try {
     result = await signInWithEmailAndPassword(auth, email, password);
-    UserStore.set(result.user);
     response.setUser(result.user);
     window.location.href = frontendHost;
   } catch (err) {

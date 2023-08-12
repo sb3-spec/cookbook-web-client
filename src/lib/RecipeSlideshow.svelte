@@ -1,16 +1,17 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import Swiper from "swiper";
-  import { Navigation } from "swiper/modules";
+  import { Swiper } from "swiper";
+  import { Navigation, Pagination } from "swiper/modules";
   import "swiper/css";
   import "swiper/css/navigation";
+  import "swiper/css/pagination";
 
   import RecipeWidget from "./RecipeWidget.svelte";
-  import { Recipe } from "../utils/customTypes";
+  import { YourRecipesStore } from "../stores/RecipeListStore";
 
   export let title = "";
   export let description = "";
-  export let recipes: Recipe[] = [];
+  $: recipes = $YourRecipesStore;
 
   const dispatch = createEventDispatcher();
 
@@ -19,20 +20,23 @@
       return;
     }
     const swiper = new Swiper(".swiper-container", {
-      modules: [Navigation],
+      modules: [Navigation, Pagination],
       slidesPerView: 1,
       breakpoints: {
         600: {
           slidesPerView: 2,
         },
         900: {
-          slidesPerView: 4,
+          slidesPerView: 5,
         },
       },
       // spaceBetween: 100,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination",
       },
     });
   });
@@ -61,36 +65,31 @@
     </div>
     <div class="swiper-button-prev btn" />
     <div class="swiper-button-next btn" />
+    <div class="swiper-pagination" />
   {/if}
 </div>
 
 <style>
-  .swiper-wrapper {
-    padding-bottom: 2em;
-    display: flex;
-    justify-content: center;
-  }
-
   .swiper-button-prev {
-    left: 0;
+    right: 0;
   }
 
   .swiper-button-next {
     right: 0;
   }
   .swiper-container {
-    width: calc(var(--content-width) + 10%);
-    margin: 0 auto;
     position: relative;
     border-top: 5px solid var(--main-color);
-    margin-bottom: 150px;
-    padding-bottom: 1em;
+    padding-bottom: 0em;
+    width: calc(var(--content-width) + 20%);
   }
 
   .swiper-wrapper {
-    width: var(--content-width);
-    margin: 0 auto;
+    width: calc(var(--content-width));
     padding-right: 5%;
+    padding-bottom: 2em;
+    display: flex;
+    gap: 0em;
   }
 
   .swiper-slide {
@@ -106,7 +105,9 @@
   }
 
   .btn {
-    color: black;
+    color: var(--text-color);
+    position: absolute;
+    top: 5em;
   }
 
   /* .swiper-wrapper {
@@ -115,8 +116,18 @@
     } */
 
   @media (max-width: 1000px) {
-    .swiper-container {
+    .swiper-container,
+    .swiper-wrapper {
       width: auto;
+    }
+
+    .swiper-wrapper {
+      margin: 0;
+      justify-content: space-between;
+    }
+
+    .swiper-container {
+      margin: 0 !important;
     }
 
     h2 {

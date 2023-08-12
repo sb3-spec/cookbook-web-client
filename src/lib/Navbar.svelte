@@ -78,20 +78,9 @@
     </div>
     <nav id="main-nav">
       <!-- <a href="/#/recipes">Your Recipes</a> -->
-      <a
-        on:click|preventDefault={() => {
-          sessionStorage.removeItem("recipeInProgress");
-        }}
-        href="/#/">Dashboard</a
-      >
+      <a href="/">Dashboard</a>
       <!-- <a href="/#/explore">Explore</a> -->
-      <a
-        on:click={() => {
-          sessionStorage.removeItem("recipeInProgress");
-        }}
-        href="/#/new-recipe"
-        id="new-recipe">New Recipe</a
-      >
+      <a href="/#/new-recipe" id="new-recipe">New Recipe</a>
       <button
         class="logout"
         on:click|preventDefault={() => {

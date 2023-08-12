@@ -2,10 +2,7 @@
   import { api } from "../utils/RecipeApi";
   import RecipeForm from "../lib/RecipeForm.svelte";
   import { Recipe } from "../utils/customTypes";
-
-  let recipe: Recipe = new Recipe(
-    JSON.parse(sessionStorage.getItem("recipeInProgress"))
-  );
+  import { recipeEdit } from "../stores/RecipeEdit";
 
   let scrapeUrl = "";
   let scrapeModal = true;
@@ -15,10 +12,8 @@
       .get("/recipes/scrape/" + encodeURIComponent(scrapeUrl))
       .then((res) => {
         // Fill out form from scraped data
-        recipe = new Recipe(res.data.data);
-        console.log(recipe);
+        recipeEdit.set(new Recipe(res.data.data));
         scrapeUrl = "";
-        alert("Recipe scraped successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -38,7 +33,7 @@
       >
     </div>
   {/if}
-  <RecipeForm {recipe} />
+  <RecipeForm />
 </div>
 
 <style>
@@ -50,9 +45,12 @@
 
   .scrape-modal input {
     width: 100%;
+    color: var(--text-color);
   }
 
   .scrape-modal button {
+    color: var(--background);
+    background-color: white;
     position: relative;
     width: 100%;
     left: 0;
@@ -62,6 +60,7 @@
 
   .scrape-modal button:disabled {
     color: grey;
+    border-color: grey;
   }
 
   .recipe-edit-outer {

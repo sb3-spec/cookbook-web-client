@@ -5,6 +5,7 @@ import {
   type ChefInterface,
   ParsleyAPIResponse,
 } from "../utils/customTypes";
+import { UserStore } from "../stores/UserStore";
 
 export async function getChef(): Promise<ParsleyAPIResponse> {
   const authConfig = getAuthConfig();
@@ -14,6 +15,7 @@ export async function getChef(): Promise<ParsleyAPIResponse> {
     let chefData: ChefInterface = (await api.get(`chefs`, authConfig)).data
       .data;
     response.chef = new Chef(chefData);
+    UserStore.set(response.chef);
     response.message = "Chef data grabbed successfully";
   } catch (err) {
     response.parseError(err);
@@ -29,6 +31,7 @@ export async function createChef(
   try {
     const result = await api.post(`chefs`, chefData, getAuthConfig());
     response.chef = result.data.data;
+    UserStore.set(response.chef);
     response.message = "Chef successfully created on the server";
   } catch (err) {
     response.parseError(err);
