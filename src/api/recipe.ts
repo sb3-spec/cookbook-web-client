@@ -1,6 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { api } from ".";
 import { app } from "../utils/firebase";
+import { UserStore } from "../stores/UserStore";
 import { Chef, Recipe, type RecipeInterface } from "../utils/customTypes";
 import { CurrentRecipeStore } from "../stores/CurrentRecipe";
 import { frontendHost } from "../utils/hosts";
@@ -8,21 +9,20 @@ import { uploadImage } from "../utils/uploadImage";
 import type { AxiosResponse } from "axios";
 import { ParsleyAPIResponse } from "../utils/customTypes";
 
-let user;
-
 function getAuthConfig() {
-  let authConfig = {
+  return {
     headers: {
-      "X-AUTH-TOKEN": getAuth().currentUser.uid || "",
+      "X-AUTH-TOKEN": getAuth(app).currentUser?.uid || "",
     },
   };
-
-  return authConfig;
 }
 
 export async function getRecipes(): Promise<ParsleyAPIResponse> {
   let response = new ParsleyAPIResponse();
 
+  let auth = getAuth(app);
+
+  console.log(getAuthConfig());
   try {
     response.recipes = (
       await api.get("chefs/recipes", getAuthConfig())

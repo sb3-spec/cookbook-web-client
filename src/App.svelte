@@ -1,10 +1,17 @@
 <script lang="ts">
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import { onMount } from "svelte";
-  import Router from 'svelte-spa-router';
+  import {
+    GoogleAuthProvider,
+    browserSessionPersistence,
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    signInWithPopup,
+    type User,
+  } from "firebase/auth";
+  import Router from "svelte-spa-router";
 
   import { app } from "./utils/firebase";
-  import Navbar from './lib/Navbar.svelte';
+  import Navbar from "./lib/Navbar.svelte";
   import Dashboard from "./pages/Dashboard.svelte";
   import Login from "./pages/Login.svelte";
   import NewRecipe from "./pages/NewRecipe.svelte";
@@ -12,59 +19,64 @@
   import Recipe from "./pages/Recipe.svelte";
   import { frontendHost } from "./utils/hosts";
   import EditRecipe from "./pages/EditRecipe.svelte";
-  import { UserStore } from "./stores/UserStore"
+  import { UserStore } from "./stores/UserStore";
   import SignUp from "./pages/SignUp.svelte";
   import { createChef, getChef } from "./api/chef";
   import type { ParsleyAPIResponse } from "./utils/customTypes";
   import { YourRecipesStore } from "./stores/RecipeListStore";
+  import { getRecipes } from "./api/recipe";
+  import { CurrentRecipeStore } from "./stores/CurrentRecipe";
 
   // VARS
 
   let errorCode;
   let errorMessage;
-  let currentUser;
+  let currentUser = $UserStore;
 
-  const unsubscribe = UserStore.subscribe(data => {
-    if (data != null) {
-      currentUser = data;
-    }
+  UserStore.subscribe((val) => {
+    localStorage.setItem("chef", JSON.stringify(val));
   });
-   
+
+  CurrentRecipeStore.subscribe((data) => {
+    localStorage.setItem("currentRecipe", JSON.stringify(data));
+  });
 
   const routes = {
-    '/': Dashboard,
-    '/login': Login,
-    '/new-recipe': NewRecipe,
-    '/sign-up': SignUp,
-    '/edit': EditRecipe,
-    '/:recipeTitle': Recipe,
+    "/": Dashboard,
+    "/login": Login,
+    "/new-recipe": NewRecipe,
+    "/sign-up": SignUp,
+    "/edit": EditRecipe,
+    "/:recipeTitle": Recipe,
+  };
+
+  async function fetchOrCreateChef(user: User) {
+    let response: ParsleyAPIResponse;
+    // user is signed in
+    response = await getChef();
+
+    if (response.status !== 200) {
+      response = await createChef({
+        username: user.displayName,
+        firebase_id: user.uid,
+        custom_tags: [],
+      });
+    }
+    return response;
   }
 
   let auth = getAuth(app);
 
   onAuthStateChanged(auth, async (user) => {
-    let response: ParsleyAPIResponse;
     if (user) {
-      // user is signed in
-      response = await getChef();
-      if (response.status === 200) {
-        sessionStorage.setItem("uid", user.uid);
-        UserStore.set(response.chef);
-      } else {
-        response = await createChef({"username": user.displayName, "firebase_id": user.uid, "custom_tags": []});
-
-        if (response.status == 200) {
-          sessionStorage.setItem("uid", response.chef.firebase_id)
-        }
-      }
+      await fetchOrCreateChef(user);
     } else {
       // user is signed out
+      UserStore.set(null);
       YourRecipesStore.set([]);
       window.location.replace(frontendHost + "#/login");
     }
-    })
-
-
+  });
 </script>
 
 <main>
@@ -96,7 +108,4 @@
   main::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-
-   
-  
 </style>

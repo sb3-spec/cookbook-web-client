@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { recipeEdit } from "../stores/RecipeEdit";
   import AddTagMenu from "../lib/AddTagMenu.svelte";
   import { Recipe } from "../utils/customTypes";
   import { createRecipe, patchRecipe } from "../api/recipe";
 
-  export let recipe: Recipe;
+  $: recipe = $recipeEdit;
   export let httpMethod: String = "POST";
 
   $: submitDisabled = Boolean(
@@ -45,15 +46,14 @@
       result = await patchRecipe(recipe);
     }
   }
+
+  function handleFormChange() {
+    recipeEdit.set(recipe);
+  }
 </script>
 
 <div class="recipe-form-outer">
-  <form
-    on:change={() => {
-      sessionStorage.setItem("recipeInProgress", JSON.stringify(recipe));
-    }}
-    on:submit|preventDefault={handleSubmit}
-  >
+  <form on:change={handleFormChange} on:submit|preventDefault={handleSubmit}>
     <div class="edit-recipe-header">
       <div
         style="display: flex; flex-direction: column;"

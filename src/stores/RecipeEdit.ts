@@ -1,4 +1,4 @@
 import { writable } from "svelte/store";
 import { Recipe } from "../utils/customTypes";
 
-export const YourRecipesStore = writable<Recipe[]>([]);
+export const recipeEdit = writable<Recipe>(new Recipe());

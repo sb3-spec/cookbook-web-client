@@ -1,16 +1,13 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
   import { CurrentRecipeStore } from "../stores/CurrentRecipe";
+  import { recipeEdit } from "../stores/RecipeEdit";
   import RecipeForm from "../lib/RecipeForm.svelte";
-  import { Recipe } from "../utils/customTypes";
 
-  let recipe: Recipe = new Recipe(
-    JSON.parse(sessionStorage.getItem("currentRecipe"))
-  );
+  recipeEdit.set($CurrentRecipeStore);
 </script>
 
 <div class="recipe-edit-outer">
-  <RecipeForm {recipe} httpMethod="PATCH" />
+  <RecipeForm httpMethod="PATCH" />
 </div>
 
 <style>

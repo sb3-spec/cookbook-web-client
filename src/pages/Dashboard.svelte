@@ -2,29 +2,29 @@
   import { YourRecipesStore } from "../stores/RecipeListStore";
   import { deleteRecipe, getRecipes } from "../api/recipe";
   import RecipeSlideshow from "../lib/RecipeSlideshow.svelte";
-  import { onDestroy, onMount } from "svelte";
   import Loading from "../lib/Loading.svelte";
   import { Recipe } from "../utils/customTypes";
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import { app } from "../utils/firebase";
 
-  let recipes = [];
+  import { UserStore } from "../stores/UserStore";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+  let user = $UserStore;
 
   let confirmDelete = false;
 
   let targetDeleteId;
   let loading = true;
 
-  let unsubscribe = YourRecipesStore.subscribe((data) => {
-    recipes = data;
-  });
+  const auth = getAuth();
 
-  onAuthStateChanged(getAuth(app), async (user) => {
-    if (user && recipes.length === 0) {
+  onAuthStateChanged(auth, async () => {
+    if (user) {
       let result = await getRecipes();
 
+      console.log(result.recipes);
       if (result.status === 200) {
-        YourRecipesStore.set(result.recipes.map((data) => new Recipe(data)));
+        const recipeObjs = result.recipes.map((data) => new Recipe(data));
+        YourRecipesStore.set(recipeObjs);
       } else {
         console.log(result.status, result.message);
       }
@@ -41,31 +41,21 @@
     let result = await deleteRecipe(Number(targetDeleteId));
 
     if (result.status === 200) {
-      YourRecipesStore.set(
-        recipes.filter((recipe) => {
+      YourRecipesStore.update((prevVal) =>
+        prevVal.filter((recipe) => {
           recipe.id !== result.recipe.id;
         })
       );
     }
     confirmDelete = false;
   }
-
-  onDestroy(() => {
-    unsubscribe();
-  });
 </script>
 
 <div class="dashboard-outer">
   {#if loading}
     <Loading />
   {:else}
-    {#key recipes}
-      <RecipeSlideshow
-        title="Your Recipes"
-        {recipes}
-        on:confirmDelete={forward}
-      />
-    {/key}
+    <RecipeSlideshow title="Your Recipes" on:confirmDelete={forward} />
   {/if}
 </div>
 

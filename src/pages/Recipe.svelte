@@ -7,9 +7,7 @@
   import TagChip from "../lib/TagChip.svelte";
   import { Recipe } from "../utils/customTypes";
 
-  let recipe: Recipe = new Recipe(
-    JSON.parse(sessionStorage.getItem("currentRecipe"))
-  );
+  $: recipe = $CurrentRecipeStore;
   let confirmDelete = false;
 
   function handleEdit() {
