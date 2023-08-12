@@ -5,10 +5,7 @@
   import Loading from "../lib/Loading.svelte";
   import { Recipe } from "../utils/customTypes";
 
-  import { UserStore } from "../stores/UserStore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-  let user = $UserStore;
 
   let confirmDelete = false;
 
@@ -17,7 +14,7 @@
 
   const auth = getAuth();
 
-  onAuthStateChanged(auth, async () => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       let result = await getRecipes();
 
