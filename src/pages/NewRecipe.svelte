@@ -49,8 +49,8 @@
   }
 
   .scrape-modal button {
-    color: var(--background);
     background-color: white;
+    color: black;
     position: relative;
     width: 100%;
     left: 0;
